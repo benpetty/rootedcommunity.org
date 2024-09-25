@@ -7,8 +7,8 @@ module.exports = {
     cpa_token: process.env.CONTENTFUL_PREVIEW_ACCESS_TOKEN || '',
   },
   meta: {
-    title: 'Digital banking for the new generation | Colorful Coin',
-    description: `Enjoy premium banking services wherever you go: instant transfers and best exchange rates, exclusive offers and priority customer support. Apply online at ${url
+    title: 'Rooted Community',
+    description: `We are a grassroots collective of BIPOC community organizers, cultural workers, and volunteers who are, respectively, formerly incarcerated, family members, and/or system impacted folks who are invested in organizing efforts committed to abolition.  ${url
       .replace('https://', '')
       .replace('http://', '')}`,
     url,

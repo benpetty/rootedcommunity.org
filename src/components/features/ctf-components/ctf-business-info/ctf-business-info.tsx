@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: theme.spacing(18),
     position: 'relative',
   },
+  // Hero Background
   heroBg: {
     backgroundColor: '#000',
     backgroundPosition: 'center center',
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       zIndex: 1,
     },
   },
+  // Hero Content
   heroInner: {
     alignItems: 'center',
     color: '#fff',

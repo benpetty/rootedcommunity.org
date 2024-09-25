@@ -16,7 +16,7 @@ import {
 import { LanguageSelector } from '@src/components/features/language-selector';
 import { Link } from '@src/components/shared/link';
 import { useContentfulContext } from '@src/contentful-context';
-import Logo from '@src/icons/logo-tagline.svg';
+import Logo from '@src/icons/plant-roots.svg';
 import { CONTAINER_WIDTH } from '@src/theme';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -305,7 +305,7 @@ export const CtfFooter = (props: FooterFieldsFragment) => {
         <section className={classes.footerCorporate}>
           <div className={classes.corporateLogoMenu}>
             <div className={classes.corporateLogoContainer}>
-              <Logo className={classes.corporateLogo} />
+              {/* @TODO <Logo className={classes.corporateLogo} /> */}
             </div>
 
             <section className={classes.copyrightAndLegal}>
@@ -325,7 +325,8 @@ export const CtfFooter = (props: FooterFieldsFragment) => {
             </section>
           </div>
 
-          <div className={classes.socialDisclaimer}>
+          {/* @TODO */}
+          {/* <div className={classes.socialDisclaimer}>
             <div className={classes.socialWrapper}>
               <Typography className={classes.socialTitle}>{t('socials.findUsOn')}</Typography>
               <div className={classes.social}>
@@ -371,7 +372,7 @@ export const CtfFooter = (props: FooterFieldsFragment) => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
         </section>
       </Container>
     </>
