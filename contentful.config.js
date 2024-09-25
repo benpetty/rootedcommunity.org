@@ -13,7 +13,7 @@ module.exports = {
       .replace('http://', '')}`,
     url,
     image:
-      'https://images.ctfassets.net/w8vf7dk7f259/4bucno7z1xAyVI5MOkU6Pu/ded83d0ec1eb732ae3a81ddab7a18877/fallback-image-03.jpg',
+      'https://images.ctfassets.net/xfft4jkhgxwt/4hID0fg1acCAi4WLQGqm0U/83c1172bad023a651217d154ddf49334/meta-image.jpg',
   },
   icon: {
     light:
