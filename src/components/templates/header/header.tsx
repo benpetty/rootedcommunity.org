@@ -61,6 +61,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'block',
     height: 'auto',
     width: '113px',
+    filter: `drop-shadow(-1px -1px 0px #fff)
+              drop-shadow(1px -1px 0px #f4f4f4)
+              drop-shadow(1px 2px 0px #f4f4f4)
+              drop-shadow(-1px 2px 0px #f4f4f4)`,
   },
 }));
 

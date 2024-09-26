@@ -91,8 +91,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: 'auto',
   },
   footerCorporateContainer: {
-    backgroundColor: '#212121',
-    color: '#fff',
+    backgroundColor: '#fff',
+    color: '#000',
     paddingBottom: theme.spacing(14),
     paddingTop: theme.spacing(8),
   },
