@@ -2,7 +2,7 @@
 
 When set up, this makes the live site rebuild automatically every time someone publishes a change in Sanity Studio. Without it, a publish updates the Sanity database but the static site doesn't refresh until someone manually triggers a deploy.
 
-This is a **one-time setup** that takes ~5 minutes. Skip until the org is ready to start authoring content; until then, the manual fallback below is fine.
+> **Status (as of 2026-05-06):** Webhook is configured and verified end-to-end. Publishing any matching document fires `repository_dispatch sanity-content-update`, which triggers the `Pipeline` workflow. The instructions below are kept for future PAT rotation and as a reference if the webhook is ever recreated.
 
 ---
 
@@ -35,10 +35,10 @@ You need a token with permission to dispatch repository events. A **fine-grained
 | **Dataset** | `production` |
 | **Trigger on** | Create, Update, Delete |
 | **Filter (GROQ)** | `_type in ["siteSettings", "homePage", "missionPage", "impactPage", "getInvolvedPage", "contactPage", "program", "person", "partner", "impactMetric"]` |
-| **Projection** | leave empty (we don't need the document body in the webhook) |
+| **Projection (GROQ)** | (see "Projection" section below — this is the request body) |
 | **Status** | Enabled |
 | **HTTP method** | POST |
-| **HTTP Headers** | (see below — two headers) |
+| **HTTP Headers** | (see "HTTP Headers" section below — two headers) |
 | **API version** | leave default |
 | **Include drafts** | unchecked (we only want to rebuild on actual publish) |
 | **Secret** | leave empty (we use bearer auth instead) |
@@ -55,22 +55,26 @@ You need a token with permission to dispatch repository events. A **fine-grained
 
 (Replace `<PASTE …>` with the actual `github_pat_…` token. The word `Bearer` and the space between are required.)
 
-### Body (the JSON sent to GitHub)
+### Projection (the request body, expressed as a GROQ projection)
 
-In the "HTTP Body" or "Payload" field, enter:
+Modern Sanity webhooks (GROQ-Powered Webhooks) don't have a separate "Body" field — the **Projection** field doubles as the request body. It's a GROQ projection that evaluates against each matching document and produces the JSON sent to the URL.
 
-```json
+Paste this into the **Projection** field:
+
+```groq
 {
   "event_type": "sanity-content-update",
   "client_payload": {
     "trigger": "sanity-webhook",
-    "documentId": "$_id",
-    "documentType": "$_type"
+    "documentId": _id,
+    "documentType": _type
   }
 }
 ```
 
-The `$_id` and `$_type` are Sanity webhook variables that get filled in with the actual document being published.
+GROQ projection syntax notes:
+- Quoted keys are JSON keys; quoted string values are literal strings.
+- `_id` and `_type` (no quotes, no `$` prefix) are GROQ field references — they resolve to the matching document's id and type at fire time.
 
 3. Click **Save**.
 
@@ -81,7 +85,7 @@ The `$_id` and `$_type` are Sanity webhook variables that get filled in with the
 1. Open Sanity Studio at https://rooted-community.sanity.studio/
 2. Edit any document (e.g. tweak the homepage subhead)
 3. Click **Publish**
-4. Within ~5–10 seconds, check https://github.com/benpetty/rootedcommunity.org/actions — you should see a new "Deploy to GitHub Pages" workflow run kicking off, triggered by `repository_dispatch`
+4. Within ~5–10 seconds, check https://github.com/benpetty/rootedcommunity.org/actions — you should see a new "Pipeline" workflow run kicking off, triggered by `repository_dispatch`
 5. Wait ~1–2 minutes for the workflow to complete
 6. Refresh https://rootedcommunity.org/ — the change should be live
 
@@ -90,17 +94,17 @@ If the workflow doesn't trigger:
 
 ---
 
-## Manual fallback (when webhook isn't set up yet)
+## Manual fallback
 
-To trigger a deploy without the webhook, run:
+To trigger a deploy without going through Sanity (e.g., the webhook is misbehaving, or you want to redeploy without changing content):
 
 ```bash
-gh workflow run "Deploy to GitHub Pages" --repo benpetty/rootedcommunity.org
+gh workflow run "Pipeline" --repo benpetty/rootedcommunity.org
 ```
 
-Or visit https://github.com/benpetty/rootedcommunity.org/actions/workflows/deploy.yml and click **Run workflow → Run workflow**.
+Or visit https://github.com/benpetty/rootedcommunity.org/actions/workflows/pipeline.yml and click **Run workflow → Run workflow**.
 
-This works any time and is a useful escape hatch even after the webhook is configured (e.g. if a webhook attempt fails for any reason).
+This works any time and is a useful escape hatch even with the webhook configured.
 
 ---
 
