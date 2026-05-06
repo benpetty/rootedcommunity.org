@@ -1,0 +1,16 @@
+{
+    "permissions": {
+        "deny": [
+            "Read(.env)",
+            "Edit(.env)",
+            "Read(studio/.env)",
+            "Edit(studio/.env)",
+            "Edit(node_modules/**)",
+            "Edit(studio/node_modules/**)",
+            "Edit(dist/**)",
+            "Edit(studio/dist/**)",
+            "Edit(yarn.lock)",
+            "Edit(studio/yarn.lock)"
+        ]
+    }
+}

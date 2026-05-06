@@ -3,7 +3,7 @@ export
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install dev build preview studio deploy-studio lint format upgrade upgrade-latest
+.PHONY: help install dev build preview studio deploy-studio seed seed-replace lint format upgrade upgrade-latest
 
 help: ## Show this help message with all available targets
 	@grep -hE '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
@@ -26,6 +26,12 @@ studio: ## Start the Sanity Studio dev server at localhost:3333
 
 deploy-studio: ## Deploy Sanity Studio to rooted-community.sanity.studio
 	cd studio && npx sanity deploy
+
+seed: ## Seed Sanity with verbatim content (only adds missing docs; uses CLI auth)
+	node scripts/seed.mjs | (cd studio && npx -y sanity@latest datasets import - $(SANITY_DATASET) --missing)
+
+seed-replace: ## Re-seed Sanity, overwriting any existing docs (destructive — overwrites Studio edits)
+	node scripts/seed.mjs | (cd studio && npx -y sanity@latest datasets import - $(SANITY_DATASET) --replace)
 
 lint: ## Run ESLint
 	yarn lint
