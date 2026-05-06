@@ -2,7 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Populate the 8 currently-empty hero image slots (1 home + 7 programs) with AI-generated placeholder imagery, using the Sanity MCP `generate_image` tool, without schema changes or new dependencies.
+> **2026-05-06 mid-execution revision:** original photo-realism direction was rejected after the first generation pass produced "hippie camping retreat" imagery. Pivoted to printmaking / solidarity-poster illustration (Emory Douglas / Just Seeds lineage) with BIPOC figures in urban PNW community settings. Tasks 1 and 2 (code) were already done before the pivot — only the prompts inside `scripts/image-prompts.mjs` changed. The flow below reflects the revised prompts.
+
+**Goal:** Populate the 8 currently-empty hero image slots (1 home + 7 programs) with AI-generated placeholder *illustration* imagery, using the Sanity MCP `generate_image` tool, without schema changes or new dependencies.
 
 **Architecture:** Two new Node scripts (`image-prompts.mjs` for the prompt config, `image-review.mjs` for surfacing draft preview URLs) + one Makefile target. Generation, review, iteration, and publishing are driven via Sanity MCP tool calls from inside a Claude Code session. Generated assets land in document drafts (invisible to the public site) until explicitly published.
 
@@ -39,7 +41,7 @@ No other files are touched. No schema changes. No new dependencies.
 
 - [ ] **Step 1: Write the prompt config file**
 
-Write `scripts/image-prompts.mjs` with the exact contents below.
+Write `scripts/image-prompts.mjs` with the exact contents below. (The contents shown reflect the post-pivot Style C illustration direction.)
 
 ```javascript
 // Prompt config for AI-generated placeholder hero imagery.
@@ -49,60 +51,60 @@ Write `scripts/image-prompts.mjs` with the exact contents below.
 //   - scripts/image-review.mjs (reads SLOTS to know which docs
 //     to query for draft asset URLs).
 //
-// Editing a slot's `subject` and re-running the generator for that
-// slot is the supported way to iterate. The shared brand-aesthetic
-// suffix lives in BRAND_AESTHETIC_SUFFIX so it can drift in one place.
+// Visual direction: printmaking / solidarity-poster illustration —
+// bold woodcut and linocut feel, BIPOC figures depicted with dignity,
+// urban Pacific Northwest community settings.
 
-export const BRAND_AESTHETIC_SUFFIX = "Editorial photography, low saturation, warm cream and forest tones, soft natural light, shallow depth of field, 35mm film aesthetic. Pacific Northwest atmosphere. No people, no faces, no human figures. No text. No incarceration imagery (no chains, bars, gavels, scales of justice). Calm, dignified, atmospheric.";
+export const BRAND_AESTHETIC_SUFFIX = "Bold woodcut and linocut illustration style, high contrast with strong black linework and visible carving texture. Limited warm color palette: cream background, deep forest green, clay rust accents — flat printed colors over cream. BIPOC figures (Black, Indigenous, and Brown people of color) rendered with solidarity and dignity in the visual tradition of Emory Douglas (Black Panther graphic design), Just Seeds collective, Favianna Rodriguez, and Amplifier Art posters. Strong graphic shapes, hand-printed feel. Urban Pacific Northwest neighborhoods (Seattle and Tacoma). No text, no lettering, no signage. No photorealism — this is hand-printed illustration.";
 
 export const SLOTS = [
   {
     documentId: "homePage",
     imagePath: "heroImage",
     label: "Home hero",
-    subject: "Soft morning light through cedar branches over a quiet Pacific Northwest forest path. No people.",
+    subject: "A small multi-generational group of BIPOC people — Black, Indigenous, and Brown youth and adults — standing close together on an urban sidewalk in front of an apartment building. A sense of solidarity and rootedness in community.",
   },
   {
     documentId: "program-housing-support",
     imagePath: "heroImage",
     label: "Housing Support",
-    subject: "A weathered wooden front door, slightly ajar, warm interior light spilling onto a porch step. Keys hanging in the lock, a hand just out of frame.",
+    subject: "A BIPOC person's hand turning a key in an apartment door, with the partial figure of another person carrying a moving box behind them. Urban apartment building exterior, late afternoon light.",
   },
   {
     documentId: "program-immediate-needs-support",
     imagePath: "heroImage",
     label: "Immediate Needs Support",
-    subject: "Top-down still life on a wooden table: a folded canvas tote, a wool beanie, a small notebook, and a thermos. The basics.",
+    subject: "Two BIPOC figures in profile on an urban sidewalk outside a small community center — one handing the other a tote bag of supplies. The moment of concrete care.",
   },
   {
     documentId: "program-peer-mental-support",
     imagePath: "heroImage",
     label: "Peer/Mental Support",
-    subject: "Two ceramic mugs on a low table, steam rising, soft window light. Two pairs of hands resting nearby, no faces. Conversational stillness.",
+    subject: "Two BIPOC figures sitting side by side on a community-center bench, one talking and one listening, with cups of tea between them. Profile views, communal warmth.",
   },
   {
     documentId: "program-legal-court-advocacy",
     imagePath: "heroImage",
     label: "Legal/Court Advocacy",
-    subject: "A wide hallway with tall arched windows, late afternoon light, an empty wooden bench in the foreground. Public-building dignity. No gavel, no scales.",
+    subject: "A BIPOC person walking up the front steps of a public building with an advocate beside them, slightly behind. Bold architectural lines of the building. Sense of accompaniment, not isolation.",
   },
   {
     documentId: "program-lfo-relief-program",
     imagePath: "heroImage",
     label: "LFO Relief",
-    subject: "Close-up on hands at a small kitchen table, a stack of opened mail, a pen, soft lamp light. The texture of administrative weight without despair.",
+    subject: "Two BIPOC hands at a kitchen table — one pointing at a stack of paperwork, the other holding a pen. The texture of administrative weight, but with help present.",
   },
   {
     documentId: "program-adult-community-circles",
     imagePath: "heroImage",
     label: "Adult Community Circles",
-    subject: "Top-down on a circle of folded blankets and cushions on a wood floor. A single woven basket holding a stone and a feather as a talking piece at center. No people.",
+    subject: "An overhead or three-quarter view of a circle of BIPOC adults seated together in a community room, a talking piece (a stone or feather) at the center. Hands and shoulders visible. Indigenous-rooted circle practice.",
   },
   {
     documentId: "program-youth-community-circles",
     imagePath: "heroImage",
     label: "Youth Community Circles",
-    subject: "Top-down on a circle of folded blankets and cushions on a wood floor. A sketchbook open to a page of drawings, colored pencils scattered. Younger register, no people.",
+    subject: "A circle of BIPOC teenagers seated together on the floor of a community-center room, a talking piece at the center, sketchbooks open beside them. Young, alive, communal.",
   },
 ];
 ```

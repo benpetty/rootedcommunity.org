@@ -1,8 +1,13 @@
 # AI-Generated Placeholder Imagery — Design
 
-**Status:** Draft for review
+**Status:** Draft for review (revised mid-execution)
 **Author:** Claude Code (brainstorming session 2026-05-06)
 **Branch:** `feat/post-polish-content-rendering`
+
+## Revision history
+
+- **2026-05-06 (initial):** AI-generated *photography*, atmospheric / no-people / PNW-landscape framing. First generation pass produced imagery that read as a "hippie camping retreat" — completely off-brand for an urban BIPOC-serving org.
+- **2026-05-06 (pivot):** Switched to AI-generated *illustration* in the printmaking / solidarity-poster tradition (Emory Douglas, Just Seeds, Favianna Rodriguez, Amplifier Art). BIPOC figures depicted with dignity in urban Pacific Northwest community settings. Tooling unchanged (`mcp__Sanity__generate_image`); only the prompts and the project image-direction memory shifted.
 
 ## Goal
 
@@ -19,16 +24,18 @@ These are *placeholders*, not final art. The goal is to retire the visual emptin
 
 **In scope (8 images):**
 
-| Slot | Document ID | Field path | Aspect (source) | Subject |
-|------|-------------|------------|-----------------|---------|
-| Home hero | `homePage` | `heroImage` | 16:9 | Soft morning light through cedar branches over a quiet PNW forest path. No people. |
-| Housing Support | `program-housing-support` | `heroImage` | 4:3 | A weathered wooden front door, slightly ajar; warm interior light spilling onto a porch step; keys hanging in the lock; hand just out of frame. |
-| Immediate Needs Support | `program-immediate-needs-support` | `heroImage` | 4:3 | Top-down on a folded canvas tote, a wool beanie, a small notebook, and a thermos on a wooden table. Quiet still-life of "the basics." |
-| Peer/Mental Support | `program-peer-mental-support` | `heroImage` | 4:3 | Two ceramic mugs on a low table, steam rising; soft window light; two pairs of hands resting nearby (no faces). Conversational stillness. |
-| Legal/Court Advocacy | `program-legal-court-advocacy` | `heroImage` | 4:3 | A wide hallway with tall arched windows; late afternoon light; an empty wooden bench in the foreground. Public-building dignity, no gavel/scales tropes. |
-| LFO Relief | `program-lfo-relief-program` | `heroImage` | 4:3 | Close-up on hands at a small kitchen table; a stack of opened mail; a pen; soft lamp light. The texture of administrative weight without despair. |
-| Adult Community Circles | `program-adult-community-circles` | `heroImage` | 4:3 | Top-down on a circle of folded blankets and cushions on a wood floor; a single woven basket holding a stone and a feather (talking piece) at center. No people. |
-| Youth Community Circles | `program-youth-community-circles` | `heroImage` | 4:3 | Same circle/floor language as adult, but with a sketchbook open to a page of drawings, colored pencils scattered. Younger register, still no faces. |
+| Slot | Document ID | Field path | Subject |
+|------|-------------|------------|---------|
+| Home hero | `homePage` | `heroImage` | Multi-generational BIPOC group standing close together on an urban sidewalk in front of an apartment building. Solidarity, rootedness in community. |
+| Housing Support | `program-housing-support` | `heroImage` | A BIPOC person's hand turning a key in an apartment door; partial figure of another person carrying a moving box behind. Urban apartment exterior, late afternoon. |
+| Immediate Needs Support | `program-immediate-needs-support` | `heroImage` | Two BIPOC figures in profile on an urban sidewalk outside a small community center — one handing the other a tote bag of supplies. The moment of concrete care. |
+| Peer/Mental Support | `program-peer-mental-support` | `heroImage` | Two BIPOC figures on a community-center bench, one talking, one listening, cups of tea between them. Profile views, communal warmth. |
+| Legal/Court Advocacy | `program-legal-court-advocacy` | `heroImage` | A BIPOC person walking up the front steps of a public building, an advocate beside them. Bold architectural lines. Sense of accompaniment. |
+| LFO Relief | `program-lfo-relief-program` | `heroImage` | Two BIPOC hands at a kitchen table — one pointing at a stack of paperwork, the other holding a pen. Administrative weight, but with help present. |
+| Adult Community Circles | `program-adult-community-circles` | `heroImage` | Overhead view of a circle of BIPOC adults in a community room, talking piece (stone or feather) at center. Indigenous-rooted circle practice. |
+| Youth Community Circles | `program-youth-community-circles` | `heroImage` | A circle of BIPOC teenagers seated together on a community-center floor, talking piece at center, sketchbooks beside them. Young, alive, communal. |
+
+Source aspect from `mcp__Sanity__generate_image` is determined by the model and is not a config we can pin per slot. Sanity's image-url builder crops to whatever aspect each component requests (16:9 hero, 4:3 program card), so source variance does not affect rendering.
 
 **Out of scope:**
 
@@ -39,12 +46,14 @@ These are *placeholders*, not final art. The goal is to retire the visual emptin
 
 ## Constraints
 
-From `~/.claude/projects/-Users-benny-dev-rootedcommunity-org/memory/project_image_direction.md`:
+From `~/.claude/projects/-Users-benny-dev-rootedcommunity-org/memory/project_image_direction.md` (revised 2026-05-06):
 
-- **Palette:** forest `#2F4F3E`, clay rust `#B8552E`, moss `#6B8A6B`, cream `#FBF7F0`, off-white `#F3EDE0`, ink `#1B2A22`. Imagery must sit comfortably in this range — natural light, muted saturation.
-- **No identifiable BIPOC faces.** Non-negotiable. Atmospheric, environmental, hands/objects, silhouettes only.
+- **Palette:** forest `#2F4F3E`, clay rust `#B8552E`, cream `#FBF7F0`, off-white `#F3EDE0`, ink `#1B2A22`, moss `#6B8A6B` optional. Bold flat color over cream — printed not painted.
+- **Illustration not photography.** Bold woodcut / linocut feel — strong black linework, visible carving texture, hand-printed register.
+- **BIPOC representation in illustration is encouraged**, with dignity and care, in the visual lineage of Emory Douglas, Just Seeds, Favianna Rodriguez, Amplifier Art. (Photography of real community members still requires explicit consent — that rule does not apply to illustrated figures.)
 - **No incarceration tropes** (chains, bars, cells, gavels, scales of justice).
-- **PNW context** — Pacific Northwest landscape and interior community spaces.
+- **Urban PNW context** — Seattle and Tacoma neighborhoods, apartments, community centers, sidewalks, transit, public buildings, kitchens. Not pastoral / forest / camping.
+- **No text or signage in illustrations** — letterforms slip and produce gibberish.
 
 These constraints are encoded into a single `BRAND_AESTHETIC_SUFFIX` string appended to every per-slot prompt, so reproducibility and brand drift control are centralized.
 
@@ -137,14 +146,21 @@ This shape drives the architecture below.
 Defined once in `scripts/image-prompts.mjs`:
 
 ```
-Editorial photography, low saturation, warm cream and forest tones,
-soft natural light, shallow depth of field, 35mm film aesthetic.
-Pacific Northwest atmosphere. No people, no faces, no human figures.
-No text. No incarceration imagery (no chains, bars, gavels, scales
-of justice). Calm, dignified, atmospheric.
+Bold woodcut and linocut illustration style, high contrast with strong
+black linework and visible carving texture. Limited warm color palette:
+cream background, deep forest green, clay rust accents — flat printed
+colors over cream. BIPOC figures (Black, Indigenous, and Brown people
+of color) rendered with solidarity and dignity in the visual tradition
+of Emory Douglas (Black Panther graphic design), Just Seeds collective,
+Favianna Rodriguez, and Amplifier Art posters. Strong graphic shapes,
+hand-printed feel. Urban Pacific Northwest neighborhoods (Seattle and
+Tacoma). No text, no lettering, no signage. No photorealism — this is
+hand-printed illustration.
 ```
 
-Negative clauses (`No people, no faces, …`) are deliberately repeated in plain English rather than relying on subject-only positive prompting. AI image models default toward including people in any "community" / "support" scene unless actively suppressed.
+The reference-illustrator names in the suffix are load-bearing: they anchor the model toward a specific, well-trained visual lineage rather than the generic "illustration" register that produces marketing-clip-art results.
+
+Negative clauses (`No text, no lettering, no signage`) are deliberately repeated. Letterforms in AI illustration consistently come out as gibberish — explicit suppression is more reliable than hoping the model omits them.
 
 The full instruction sent to `generate_image` per slot is `${slot.subject} ${BRAND_AESTHETIC_SUFFIX}`.
 
@@ -175,8 +191,10 @@ This is documented as a contingency, not a planned step.
 
 | Risk | Mitigation |
 |------|------------|
-| AI inserts faces despite negative clauses | Strong negative prompting in suffix; per-slot reroll on detection; subject prompts deliberately favor objects/architecture/landscape. |
+| Illustration drifts toward generic "marketing illustration" register | Suffix names specific illustrators (Emory Douglas, Just Seeds, Favianna Rodriguez, Amplifier Art) to anchor the lineage; per-slot reroll if the carved/woodcut feel is missing. |
 | Generated palette drifts from cream/forest/clay | Suffix names palette terms explicitly; per-slot reroll; ultimate fallback is Replicate Flux. |
+| Text or signage shows up in illustrations as gibberish letterforms | Suffix explicitly forbids text/lettering/signage; per-slot reroll on appearance. |
+| BIPOC figures rendered with stereotypes or generic features | Per-slot review and reroll; if the model can't be coaxed past stereotype on a slot, fall back to Replicate Flux or commission a real illustrator for that slot. |
 | First pass writes to drafts but I forget to publish | `make image-review` prints which docs have draft assets; publish step is its own explicit batch call, not implicit. |
 | Generation is async — assets may not be attached yet when I query | Brief wait between generation and review; if a slot's draft asset is still null, re-query. |
 | Drafts pile up if a slot is regenerated many times | Generation overwrites the draft image field, doesn't append. No accumulation. |
