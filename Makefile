@@ -3,7 +3,7 @@ export
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install dev build preview studio deploy-studio seed seed-replace og-image lint format upgrade upgrade-latest
+.PHONY: help install dev build preview studio deploy-studio seed seed-replace patch-mission-toc og-image lint format upgrade upgrade-latest
 
 help: ## Show this help message with all available targets
 	@grep -hE '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
@@ -35,6 +35,9 @@ seed-replace: ## Re-seed Sanity, overwriting any existing docs (destructive — 
 
 og-image: ## Regenerate public/og-default.jpg (fallback social-sharing image)
 	node scripts/og-default.mjs
+
+patch-mission-toc: ## Add Theory of Change drafts to missionPage (surgical, leaves other fields alone)
+	cd studio && npx sanity exec ../scripts/patch-mission-toc.mjs --with-user-token
 
 lint: ## Run ESLint
 	yarn lint

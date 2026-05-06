@@ -36,28 +36,34 @@ const pageDescription = page?.pageDescription ?? page?.mission;
   )}
 
   {( page?.theoryOfChange?.problem || page?.theoryOfChange?.approach || page?.theoryOfChange?.outcome ) && (
-    <section class="container section">
-      <p class="eyebrow">Theory of Change</p>
-      <div class="theory-grid">
+    <section class="container section section--theory">
+      <header class="theory-head">
+        <p class="eyebrow">Theory of Change</p>
+        <p class="muted">Three stages, one continuous practice — how Rooted's work moves a community member from where they are to where they want to be.</p>
+      </header>
+      <ol class="theory-grid">
         {page?.theoryOfChange?.problem && (
-          <div class="theory-grid__cell fade-in">
+          <li class="theory-grid__cell fade-in">
+            <span class="theory-step" aria-hidden="true">01</span>
             <h2>Problem</h2>
-            <PortableText value={page.theoryOfChange.problem} />
-          </div>
+            <div class="theory-body"><PortableText value={page.theoryOfChange.problem} /></div>
+          </li>
         )}
         {page?.theoryOfChange?.approach && (
-          <div class="theory-grid__cell fade-in">
+          <li class="theory-grid__cell fade-in">
+            <span class="theory-step" aria-hidden="true">02</span>
             <h2>Approach</h2>
-            <PortableText value={page.theoryOfChange.approach} />
-          </div>
+            <div class="theory-body"><PortableText value={page.theoryOfChange.approach} /></div>
+          </li>
         )}
         {page?.theoryOfChange?.outcome && (
-          <div class="theory-grid__cell fade-in">
+          <li class="theory-grid__cell fade-in">
+            <span class="theory-step" aria-hidden="true">03</span>
             <h2>Outcome</h2>
-            <PortableText value={page.theoryOfChange.outcome} />
-          </div>
+            <div class="theory-body"><PortableText value={page.theoryOfChange.outcome} /></div>
+          </li>
         )}
-      </div>
+      </ol>
     </section>
   )}
 
@@ -89,14 +95,56 @@ const pageDescription = page?.pageDescription ?? page?.mission;
 
   .section--mission { background: var( --color-surface ); }
 
+  .section--theory { background: var( --color-surface ); }
+
+  .theory-head {
+    max-width: 38rem;
+    margin-bottom: var( --space-8 );
+    display: flex;
+    flex-direction: column;
+    gap: var( --space-3 );
+  }
+
+  .theory-head p.muted {
+    margin: 0;
+    font-size: var( --text-base );
+    line-height: var( --line-snug );
+  }
+
   .theory-grid {
-    margin-top: var( --space-5 );
+    margin: 0;
+    padding: 0;
+    list-style: none;
     display: grid;
-    gap: var( --space-6 );
+    gap: var( --space-7 );
+    counter-reset: theory;
+    position: relative;
   }
 
   @media (min-width: 880px) {
-    .theory-grid { grid-template-columns: repeat( 3, 1fr ); }
+    .theory-grid {
+      grid-template-columns: repeat( 3, 1fr );
+      gap: var( --space-8 );
+    }
+  }
+
+  .theory-grid__cell {
+    position: relative;
+    padding-top: var( --space-6 );
+    border-top: 1px solid var( --color-rule );
+    display: flex;
+    flex-direction: column;
+    gap: var( --space-3 );
+  }
+
+  .theory-step {
+    font-family: var( --font-display );
+    font-size: var( --text-xl );
+    font-weight: 460;
+    color: var( --color-clay );
+    letter-spacing: -0.01em;
+    line-height: 1;
+    font-feature-settings: "tnum";
   }
 
   .theory-grid__cell h2 {
@@ -106,7 +154,59 @@ const pageDescription = page?.pageDescription ?? page?.mission;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var( --color-forest );
+    margin: 0;
+  }
+
+  .theory-body {
+    font-size: var( --text-base );
+    line-height: var( --line-snug );
+    color: var( --color-ink );
+    margin-top: var( --space-2 );
+  }
+
+  .theory-body :global(p) {
     margin-bottom: var( --space-3 );
+  }
+
+  /* Connector — desktop horizontal */
+  @media (min-width: 880px) {
+    .theory-grid__cell:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: -1px;
+      right: calc( var( --space-8 ) * -1 );
+      width: var( --space-8 );
+      height: 1px;
+      background: var( --color-rule );
+    }
+
+    .theory-grid__cell:not(:last-child)::before {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: calc( var( --space-8 ) * -0.5 );
+      transform: translate( 50%, -50% );
+      font-family: var( --font-display );
+      font-size: var( --text-xl );
+      color: var( --color-clay );
+      background: var( --color-surface );
+      padding: 0 var( --space-3 );
+      line-height: 1;
+    }
+  }
+
+  /* Connector — mobile vertical */
+  @media (max-width: 879px) {
+    .theory-grid__cell:not(:last-child)::after {
+      content: "↓";
+      position: absolute;
+      bottom: calc( var( --space-7 ) * -1 + var( --space-2 ) );
+      left: 0;
+      font-family: var( --font-display );
+      font-size: var( --text-xl );
+      color: var( --color-clay );
+      line-height: 1;
+    }
   }
 
   .pull-quote-attribution {
