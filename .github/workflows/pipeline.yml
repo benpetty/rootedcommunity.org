@@ -1,0 +1,66 @@
+name: Pipeline
+
+# Single workflow chains: typecheck + audit run first; deploy waits on
+# both and only fires for non-PR events. This replaces the previous
+# split between ci.yml (typecheck + audit) and deploy.yml (build +
+# deploy), which both triggered on push:main and ran in parallel —
+# meaning a buggy commit could deploy before CI flagged it.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  repository_dispatch:
+    types: [sanity-content-update]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  typecheck:
+    name: Type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.13"
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn astro check
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          PUBLIC_GOOGLE_ANALYTICS_ID: ${{ secrets.PUBLIC_GOOGLE_ANALYTICS_ID }}
+
+  audit:
+    name: Audit
+    uses: ./.github/workflows/audit.yml
+    secrets: inherit
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: [typecheck, audit]
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download dist artifact built by audit
+        uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: dist/
+      - name: Package dist as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
