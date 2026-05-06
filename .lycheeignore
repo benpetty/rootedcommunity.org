@@ -1,0 +1,6 @@
+# URLs that fail link checking for non-content reasons.
+# Exclude only when the URL works in browsers but Lychee can't reach it.
+
+# /404/ — the 404 page contains a self-canonical link, which (correctly) returns 404
+# on the live site. Not an error; that's what 404 pages do.
+https://rootedcommunity.org/404/

@@ -1,0 +1,17 @@
+name: Nightly audit
+
+on:
+  schedule:
+    # 08:27 UTC daily = 01:27 PT — runs against current main
+    # Off-hour minute spreads load on GitHub-hosted runners per their cron guidance
+    - cron: "27 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Audit
+    uses: ./.github/workflows/audit.yml
+    secrets: inherit

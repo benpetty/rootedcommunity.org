@@ -1,0 +1,85 @@
+name: Audit (reusable)
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.13"
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          PUBLIC_GOOGLE_ANALYTICS_ID: ${{ secrets.PUBLIC_GOOGLE_ANALYTICS_ID }}
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  validate-sitemap:
+    name: Validate sitemap
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: dist/
+      - name: Install xmllint
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libxml2-utils
+      - name: Check sitemap exists, is valid XML, and lists URLs
+        run: |
+          test -f dist/sitemap-index.xml || { echo "sitemap-index.xml missing"; exit 1; }
+          xmllint --noout dist/sitemap-index.xml
+          if [ -f dist/sitemap-0.xml ]; then
+            xmllint --noout dist/sitemap-0.xml
+            grep -q '<loc>' dist/sitemap-0.xml || { echo "sitemap-0.xml has no <loc> entries"; exit 1; }
+          fi
+          echo "Sitemap structure valid"
+
+  validate-links:
+    name: Check links
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: dist/
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --root-dir "${{ github.workspace }}/dist" --accept 200,202,301,302,403,429 --no-progress --max-concurrency 8 'dist/**/*.html'
+          fail: true
+
+  lighthouse:
+    name: Lighthouse audit
+    runs-on: ubuntu-latest
+    needs: build
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with:
+          name: dist
+          path: dist/
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.13"
+      - uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
