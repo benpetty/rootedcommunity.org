@@ -25,3 +25,4 @@ pnpm-debug.log*
 # sanity studio
 studio/node_modules/
 studio/dist/
+.playwright-mcp/
