@@ -4,9 +4,11 @@ import type { ProgramSummary } from "../lib/sanity";
 
 interface Props {
   program: ProgramSummary;
+  headingLevel?: 2 | 3;
 }
 
-const { program } = Astro.props;
+const { program, headingLevel = 3 } = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
 const href = `/programs/${program.slug.current}/`;
 const imageSrc = program.heroImage?.asset
   ? urlFor( program.heroImage ).width( 800 ).height( 600 ).format( "webp" ).url()
@@ -21,7 +23,7 @@ const imageSrc = program.heroImage?.asset
     }
   </div>
   <div class="program-card__body">
-    <h3 class="program-card__name">{program.name}</h3>
+    <HeadingTag class="program-card__name">{program.name}</HeadingTag>
     {program.summary && <p class="program-card__summary">{program.summary}</p>}
     <span class="program-card__more">Read more <span aria-hidden="true">→</span></span>
   </div>

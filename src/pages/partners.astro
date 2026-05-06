@@ -36,7 +36,7 @@ const groupedPartners = GROUPS.map( group => ({
     ? groupedPartners.map( group => (
       <section class="container section">
         <header class="group-head fade-in">
-          <p class="eyebrow">{group.label}</p>
+          <h2 class="eyebrow group-label">{group.label}</h2>
           <p class="muted prose">{group.intro}</p>
         </header>
         <div class="partner-grid fade-in">
@@ -77,6 +77,10 @@ const groupedPartners = GROUPS.map( group => ({
     display: flex;
     flex-direction: column;
     gap: var( --space-3 );
+  }
+
+  .group-label {
+    margin: 0;
   }
 
   .partner-grid {

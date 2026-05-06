@@ -3,7 +3,7 @@ export
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install dev build preview studio deploy-studio seed seed-replace og-image lint format upgrade upgrade-latest
+.PHONY: help install dev build preview studio deploy-studio seed seed-replace patch-mission-toc publish-drafts og-image lint format upgrade upgrade-latest
 
 help: ## Show this help message with all available targets
 	@grep -hE '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
@@ -35,6 +35,19 @@ seed-replace: ## Re-seed Sanity, overwriting any existing docs (destructive — 
 
 og-image: ## Regenerate public/og-default.jpg (fallback social-sharing image)
 	node scripts/og-default.mjs
+
+patch-mission-toc: ## Add Theory of Change drafts to missionPage (surgical, leaves other fields alone)
+	cd studio && npx sanity exec ../scripts/patch-mission-toc.mjs --with-user-token
+
+publish-drafts: ## Patch all 7 programs + Theory of Change with framework-level draft content (surgical; uses temp editor token)
+	@echo "Creating temporary editor token..."
+	@TOKEN_JSON=$$(cd studio && npx -y sanity@latest tokens add "Bulk content patch (temp)" --role editor --json); \
+	TOKEN_ID=$$(echo "$$TOKEN_JSON" | node -e "let s=''; process.stdin.on('data',c=>s+=c).on('end',()=>console.log(JSON.parse(s).id))"); \
+	TOKEN_KEY=$$(echo "$$TOKEN_JSON" | node -e "let s=''; process.stdin.on('data',c=>s+=c).on('end',()=>console.log(JSON.parse(s).key))"); \
+	echo "Patching documents..."; \
+	SANITY_WRITE_TOKEN="$$TOKEN_KEY" node scripts/publish-drafts.mjs; \
+	echo "Cleaning up temporary token..."; \
+	(cd studio && npx -y sanity@latest tokens delete "$$TOKEN_ID" --yes) || echo "Token cleanup failed; delete '$$TOKEN_ID' manually if needed"
 
 lint: ## Run ESLint
 	yarn lint
