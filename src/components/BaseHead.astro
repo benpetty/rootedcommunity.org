@@ -1,0 +1,59 @@
+---
+import "../styles/global.css";
+import JsonLd from "./JsonLd.astro";
+import type { StructuredData } from "../lib/jsonld";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  structuredData?: StructuredData[];
+}
+
+const GOOGLE_ANALYTICS_ID = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID;
+
+const { title, description, ogImage, structuredData = [] } = Astro.props;
+const canonicalURL = new URL( Astro.url.pathname, Astro.site );
+const resolvedOgImage = ogImage ?? new URL( "/og-default.jpg", Astro.site ).toString();
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#FBF7F0" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<meta name="generator" content={Astro.generator} />
+
+<link rel="canonical" href={canonicalURL} />
+
+<title>{title}</title>
+<meta name="title" content={title} />
+{description && <meta name="description" content={description} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:image" content={resolvedOgImage} />
+<meta property="og:site_name" content="Rooted Community" />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+{description && <meta property="twitter:description" content={description} />}
+<meta property="twitter:image" content={resolvedOgImage} />
+
+{structuredData.map( data => <JsonLd data={data} /> )}
+
+{GOOGLE_ANALYTICS_ID && (
+  <>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}></script>
+    <script is:inline define:vars={{ GOOGLE_ANALYTICS_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag( ...args ) { dataLayer.push( args ); }
+      gtag( "js", new Date() );
+      gtag( "config", GOOGLE_ANALYTICS_ID );
+    </script>
+  </>
+)}

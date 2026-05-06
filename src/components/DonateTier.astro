@@ -1,0 +1,69 @@
+---
+import type { DonationTier } from "../lib/sanity";
+
+interface Props {
+  tier: DonationTier;
+  donateUrl?: string;
+}
+
+const { tier, donateUrl } = Astro.props;
+
+if( !tier.amount ) return new Response( null, { status: 204 } );
+
+const Tag = donateUrl ? "a" : "div";
+---
+
+<Tag
+  class="donate-tier fade-in"
+  {...donateUrl ? { href: donateUrl, target: "_blank", rel: "noopener" } : {}}
+>
+  <span class="donate-tier__amount">{tier.amount}</span>
+  {tier.outcomeDescription && (
+    <p class="donate-tier__description">{tier.outcomeDescription}</p>
+  )}
+  {donateUrl && <span class="donate-tier__cta">Give <span aria-hidden="true">→</span></span>}
+</Tag>
+
+<style>
+  .donate-tier {
+    display: flex;
+    flex-direction: column;
+    gap: var( --space-3 );
+    padding: var( --space-6 ) var( --space-5 );
+    background: var( --color-bg );
+    border: 1px solid var( --color-rule );
+    text-decoration: none;
+    color: var( --color-ink );
+    transition: border-color 150ms ease, transform 250ms ease;
+  }
+
+  a.donate-tier:hover {
+    border-color: var( --color-forest );
+    transform: translateY( -2px );
+  }
+
+  .donate-tier__amount {
+    font-family: var( --font-display );
+    font-size: clamp( 2.25rem, 4vw, 3rem );
+    line-height: 1;
+    color: var( --color-forest );
+    letter-spacing: -0.01em;
+  }
+
+  .donate-tier__description {
+    margin: 0;
+    color: var( --color-muted );
+    font-size: var( --text-sm );
+    line-height: var( --line-snug );
+  }
+
+  .donate-tier__cta {
+    margin-top: auto;
+    font-family: var( --font-body );
+    font-size: var( --text-xs );
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var( --color-forest );
+    padding-top: var( --space-3 );
+  }
+</style>

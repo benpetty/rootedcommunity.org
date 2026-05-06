@@ -1,0 +1,55 @@
+---
+interface Props {
+  value: string;
+  label: string;
+  context?: string;
+  size?: "default" | "large";
+}
+
+const { value, label, context, size = "default" } = Astro.props;
+---
+
+<figure class:list={[ "impact-stat", `impact-stat--${size}` ]}>
+  <span class="impact-stat__value">{value}</span>
+  <figcaption class="impact-stat__label">{label}</figcaption>
+  {context && <p class="impact-stat__context">{context}</p>}
+</figure>
+
+<style>
+  .impact-stat {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var( --space-2 );
+    padding: var( --space-5 ) 0;
+    border-top: 1px solid var( --color-rule );
+  }
+
+  .impact-stat__value {
+    font-family: var( --font-display );
+    font-size: clamp( 3rem, 7vw, 5.5rem );
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var( --color-forest );
+    font-weight: 460;
+  }
+
+  .impact-stat--large .impact-stat__value {
+    font-size: clamp( 4rem, 11vw, 8rem );
+  }
+
+  .impact-stat__label {
+    font-family: var( --font-body );
+    font-size: var( --text-base );
+    color: var( --color-ink );
+    margin: 0;
+    max-width: 22rem;
+  }
+
+  .impact-stat__context {
+    font-size: var( --text-sm );
+    color: var( --color-muted );
+    max-width: 28rem;
+    margin: var( --space-2 ) 0 0 0;
+  }
+</style>

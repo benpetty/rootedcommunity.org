@@ -1,0 +1,58 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { getSiteSettings } from "../lib/sanity";
+import { buildNonprofitOrganization, type StructuredData } from "../lib/jsonld";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  structuredData?: StructuredData[];
+}
+
+const { title, description, ogImage, structuredData = [] } = Astro.props;
+const settings = await getSiteSettings();
+const siteUrl = Astro.site?.toString() ?? "https://rootedcommunity.org";
+const ngo = buildNonprofitOrganization( settings, siteUrl );
+const allStructuredData: StructuredData[] = ngo
+  ? [ ngo, ...structuredData ]
+  : structuredData;
+
+const resolvedDescription = description ?? settings?.siteDescription;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={title}
+      description={resolvedDescription}
+      ogImage={ogImage}
+      structuredData={allStructuredData}
+    />
+  </head>
+  <body class="site-shell">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Nav settings={settings} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer settings={settings} />
+    <script>
+      const observer = new IntersectionObserver( entries => {
+        entries.forEach( entry => {
+          if( entry.isIntersecting ) {
+            entry.target.classList.add( "visible" );
+            observer.unobserve( entry.target );
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll( ".fade-in" ).forEach( element => {
+        observer.observe( element );
+      });
+    </script>
+  </body>
+</html>

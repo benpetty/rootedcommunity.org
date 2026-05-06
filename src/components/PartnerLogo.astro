@@ -1,0 +1,63 @@
+---
+import { urlFor } from "../lib/image";
+import type { Partner } from "../lib/sanity";
+
+interface Props {
+  partner: Partner;
+}
+
+const { partner } = Astro.props;
+
+const imageSrc = partner.logo?.asset
+  ? urlFor( partner.logo ).height( 80 ).format( "webp" ).url()
+  : null;
+
+const Tag = partner.url ? "a" : "div";
+---
+
+<Tag
+  class="partner-logo"
+  {...partner.url ? { href: partner.url, target: "_blank", rel: "noopener" } : {}}
+>
+  {imageSrc
+    ? <img src={imageSrc} alt={partner.logo?.alt ?? partner.name} height="48" loading="lazy" decoding="async" />
+    : <span class="partner-logo__name">{partner.name}</span>
+  }
+</Tag>
+
+<style>
+  .partner-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var( --space-3 ) var( --space-4 );
+    min-height: 64px;
+    color: var( --color-ink );
+    text-decoration: none;
+    transition: opacity 150ms ease, filter 150ms ease;
+  }
+
+  .partner-logo img {
+    height: 40px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    filter: grayscale( 1 ) brightness( 0.4 );
+    opacity: 0.75;
+    transition: opacity 150ms ease, filter 150ms ease;
+  }
+
+  .partner-logo:hover img {
+    opacity: 1;
+    filter: grayscale( 0 ) brightness( 1 );
+  }
+
+  .partner-logo__name {
+    font-family: var( --font-display );
+    font-size: var( --text-base );
+    font-style: italic;
+    color: var( --color-muted );
+  }
+
+  .partner-logo:hover .partner-logo__name { color: var( --color-forest ); }
+</style>

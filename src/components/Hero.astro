@@ -1,0 +1,93 @@
+---
+import { urlFor } from "../lib/image";
+import type { SanityImage, CtaLink } from "../lib/sanity";
+
+interface Props {
+  eyebrow?: string;
+  headline?: string;
+  subhead?: string;
+  image?: SanityImage;
+  ctaPrimary?: CtaLink;
+  ctaSecondary?: CtaLink;
+}
+
+const { eyebrow, headline, subhead, image, ctaPrimary, ctaSecondary } = Astro.props;
+
+const imageSrc = image?.asset
+  ? urlFor( image ).width( 1280 ).height( 720 ).format( "webp" ).url()
+  : null;
+---
+
+<section class="hero container section">
+  <div class="hero__copy fade-in">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    {headline && <h1 class="hero__headline">{headline}</h1>}
+    {subhead && <p class="hero__subhead">{subhead}</p>}
+    <span class="rule" aria-hidden="true"></span>
+    <div class="hero__ctas">
+      {ctaPrimary?.label && ctaPrimary?.href && (
+        <a href={ctaPrimary.href} class="button button--primary">{ctaPrimary.label}</a>
+      )}
+      {ctaSecondary?.label && ctaSecondary?.href && (
+        <a href={ctaSecondary.href} class="button">{ctaSecondary.label}</a>
+      )}
+    </div>
+  </div>
+  {imageSrc && (
+    <figure class="hero__figure fade-in">
+      <img src={imageSrc} alt={image?.alt ?? ""} width="1280" height="720" loading="eager" decoding="async" />
+    </figure>
+  )}
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var( --space-8 );
+    align-items: center;
+  }
+
+  @media (min-width: 880px) {
+    .hero { grid-template-columns: 1.05fr 1fr; gap: var( --space-9 ); }
+  }
+
+  .hero__copy { max-width: 38rem; }
+
+  .hero__headline {
+    font-size: clamp( 2.25rem, 5.2vw, 4rem );
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-top: var( --space-3 );
+    margin-bottom: var( --space-5 );
+    font-weight: 460;
+  }
+
+  .hero__subhead {
+    font-size: var( --text-lg );
+    line-height: var( --line-snug );
+    color: var( --color-ink );
+    margin: 0;
+    max-width: 32rem;
+  }
+
+  .hero__ctas {
+    margin-top: var( --space-5 );
+    display: flex;
+    gap: var( --space-3 );
+    flex-wrap: wrap;
+  }
+
+  .hero__figure {
+    margin: 0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .hero__figure img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    filter: saturate( 0.95 );
+  }
+</style>

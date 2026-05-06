@@ -1,0 +1,42 @@
+---
+import type { SiteSettings } from "../lib/sanity";
+
+interface Props {
+  settings: SiteSettings | null;
+}
+
+const { settings } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const NAV_LINKS = [
+  { href: "/mission/",  label: "Mission" },
+  { href: "/programs/", label: "Programs" },
+  { href: "/impact/",   label: "Impact" },
+  { href: "/team/",     label: "Team" },
+  { href: "/partners/", label: "Partners" },
+  { href: "/contact/",  label: "Contact" },
+];
+
+const isActive = ( href: string ) => {
+  if( href === "/" ) return currentPath === "/";
+  return currentPath.startsWith( href );
+};
+
+const brandName = settings?.siteTitle ?? "Rooted Community";
+---
+
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary">
+    <a href="/" class="site-nav__brand">{brandName}</a>
+
+    <ul class="site-nav__links">
+      {NAV_LINKS.map( link => (
+        <li>
+          <a href={link.href} class:list={[ { active: isActive( link.href ) } ]}>{link.label}</a>
+        </li>
+      ) )}
+    </ul>
+
+    <a href="/get-involved/" class="site-nav__cta">Donate</a>
+  </nav>
+</header>

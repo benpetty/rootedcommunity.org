@@ -1,0 +1,103 @@
+---
+import { urlFor } from "../lib/image";
+import PortableText from "./PortableText.astro";
+import type { Person } from "../lib/sanity";
+
+interface Props {
+  person: Person;
+}
+
+const { person } = Astro.props;
+
+const imageSrc = person.photo?.asset
+  ? urlFor( person.photo ).width( 480 ).height( 480 ).format( "webp" ).url()
+  : null;
+---
+
+<article class="person-card fade-in">
+  <div class="person-card__photo-wrap">
+    {imageSrc
+      ? <img src={imageSrc} alt={person.photo?.alt ?? person.name} width="480" height="480" loading="lazy" decoding="async" />
+      : <div class="person-card__photo-placeholder" aria-hidden="true">
+          <span>{person.name.split( " " ).map( word => word[ 0 ] ).join( "" ).slice( 0, 2 )}</span>
+        </div>
+    }
+  </div>
+  <div class="person-card__body">
+    <h3 class="person-card__name">{person.name}</h3>
+    <p class="person-card__role">
+      {person.role}{person.pronouns && <span class="person-card__pronouns"> · {person.pronouns}</span>}
+    </p>
+    {person.bio && (
+      <div class="person-card__bio">
+        <PortableText value={person.bio} />
+      </div>
+    )}
+    {person.email && (
+      <a href={`mailto:${person.email}`} class="person-card__email">{person.email}</a>
+    )}
+  </div>
+</article>
+
+<style>
+  .person-card {
+    display: flex;
+    flex-direction: column;
+    gap: var( --space-4 );
+  }
+
+  .person-card__photo-wrap {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var( --color-surface );
+  }
+
+  .person-card__photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate( 0.92 );
+  }
+
+  .person-card__photo-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient( 135deg, var( --color-surface ), var( --color-rule ) );
+    color: var( --color-forest );
+    font-family: var( --font-display );
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+  }
+
+  .person-card__name {
+    font-size: var( --text-lg );
+    font-weight: 480;
+    margin: 0;
+  }
+
+  .person-card__role {
+    margin: var( --space-1 ) 0 0;
+    font-size: var( --text-sm );
+    color: var( --color-muted );
+  }
+
+  .person-card__pronouns {
+    color: var( --color-muted );
+    font-style: italic;
+  }
+
+  .person-card__bio {
+    margin-top: var( --space-3 );
+    font-size: var( --text-sm );
+    color: var( --color-ink );
+  }
+
+  .person-card__email {
+    margin-top: var( --space-3 );
+    font-size: var( --text-xs );
+    letter-spacing: 0.06em;
+    color: var( --color-forest );
+  }
+</style>
