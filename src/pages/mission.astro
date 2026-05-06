@@ -41,19 +41,19 @@ const pageDescription = page?.pageDescription ?? page?.mission;
       <div class="theory-grid">
         {page?.theoryOfChange?.problem && (
           <div class="theory-grid__cell fade-in">
-            <h3>Problem</h3>
+            <h2>Problem</h2>
             <PortableText value={page.theoryOfChange.problem} />
           </div>
         )}
         {page?.theoryOfChange?.approach && (
           <div class="theory-grid__cell fade-in">
-            <h3>Approach</h3>
+            <h2>Approach</h2>
             <PortableText value={page.theoryOfChange.approach} />
           </div>
         )}
         {page?.theoryOfChange?.outcome && (
           <div class="theory-grid__cell fade-in">
-            <h3>Outcome</h3>
+            <h2>Outcome</h2>
             <PortableText value={page.theoryOfChange.outcome} />
           </div>
         )}
@@ -99,7 +99,7 @@ const pageDescription = page?.pageDescription ?? page?.mission;
     .theory-grid { grid-template-columns: repeat( 3, 1fr ); }
   }
 
-  .theory-grid__cell h3 {
+  .theory-grid__cell h2 {
     font-family: var( --font-body );
     font-size: var( --text-xs );
     font-weight: 600;

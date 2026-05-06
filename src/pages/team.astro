@@ -35,7 +35,7 @@ const groupedPeople = GROUPS.map( group => ({
     ? groupedPeople.map( group => (
       <section class="container section">
         <header class="group-head fade-in">
-          <p class="eyebrow">{group.label}</p>
+          <h2 class="eyebrow group-label">{group.label}</h2>
         </header>
         <div class="people-grid">
           {group.people.map( person => <PersonCard person={person} /> )}
@@ -71,6 +71,10 @@ const groupedPeople = GROUPS.map( group => ({
 
   .group-head {
     margin-bottom: var( --space-6 );
+  }
+
+  .group-label {
+    margin: 0;
   }
 
   .people-grid {

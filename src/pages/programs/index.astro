@@ -21,7 +21,7 @@ const programs = await getPrograms();
 
   <section class="container section">
     <div class="programs-grid">
-      {programs.map( program => <ProgramCard program={program} /> )}
+      {programs.map( program => <ProgramCard program={program} headingLevel={2} /> )}
     </div>
   </section>
 </Layout>
