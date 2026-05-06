@@ -19,6 +19,11 @@ const imageSrc = image?.asset
 ---
 
 <section class="hero container section">
+  {imageSrc && (
+    <figure class="hero__figure fade-in">
+      <img src={imageSrc} alt={image?.alt ?? ""} width="1280" height="720" loading="eager" decoding="async" />
+    </figure>
+  )}
   <div class="hero__copy fade-in">
     {eyebrow && <p class="eyebrow">{eyebrow}</p>}
     {headline && <h1 class="hero__headline">{headline}</h1>}
@@ -33,32 +38,48 @@ const imageSrc = image?.asset
       )}
     </div>
   </div>
-  {imageSrc && (
-    <figure class="hero__figure fade-in">
-      <img src={imageSrc} alt={image?.alt ?? ""} width="1280" height="720" loading="eager" decoding="async" />
-    </figure>
-  )}
 </section>
 
 <style>
+  /* Poster-centered hero: tree emblem leads, type follows below.
+     Treats the home image as a brand mark rather than a side-by-side
+     scene panel. Single-column on every viewport. */
   .hero {
-    display: grid;
-    gap: var( --space-8 );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var( --space-7 );
+  }
+
+  .hero__figure {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 40rem;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .hero__figure img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    filter: saturate( 0.95 );
+  }
+
+  .hero__copy {
+    max-width: 42rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
   }
 
-  @media (min-width: 880px) {
-    .hero { grid-template-columns: 1.05fr 1fr; gap: var( --space-9 ); }
-  }
-
-  .hero__copy { max-width: 38rem; }
-
   .hero__headline {
-    font-size: clamp( 2.25rem, 5.2vw, 4rem );
-    line-height: 1.05;
-    letter-spacing: -0.015em;
-    margin-top: var( --space-3 );
-    margin-bottom: var( --space-5 );
+    font-size: clamp( 2.5rem, 6vw, 4.5rem );
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    margin: var( --space-3 ) 0 var( --space-5 );
     font-weight: 460;
   }
 
@@ -70,24 +91,16 @@ const imageSrc = image?.asset
     max-width: 32rem;
   }
 
+  .hero .rule {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .hero__ctas {
     margin-top: var( --space-5 );
     display: flex;
     gap: var( --space-3 );
     flex-wrap: wrap;
-  }
-
-  .hero__figure {
-    margin: 0;
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .hero__figure img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    filter: saturate( 0.95 );
+    justify-content: center;
   }
 </style>
