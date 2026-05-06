@@ -1,0 +1,88 @@
+---
+const title = "Rooted Community";
+const description = "A community-centered organization prioritizing relationships, trauma-informed healing, and the humanity of our BIPOC community members harmed by racist systems of oppression. Serving King, Snohomish, and Pierce counties.";
+const canonical = new URL( "/", Astro.site ).toString();
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <style is:global>
+      :root {
+        --color-bg:      #FBF7F0;
+        --color-ink:     #1B2A22;
+        --color-forest:  #2F4F3E;
+        --color-rule:    #D4CCBC;
+        --color-muted:   #5C6B62;
+        font-family: ui-serif, Georgia, "Iowan Old Style", "Apple Garamond", "Palatino Linotype", "Times New Roman", serif;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        background: var( --color-bg );
+        color: var( --color-ink );
+        font-size: 18px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      main {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 6rem 1.5rem;
+      }
+      .eyebrow {
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 0.8125rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var( --color-forest );
+        margin: 0 0 2rem;
+      }
+      h1 {
+        font-size: clamp( 2.25rem, 5vw, 3.75rem );
+        line-height: 1.1;
+        margin: 0 0 1.5rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+      .lede {
+        font-size: 1.1875rem;
+        line-height: 1.55;
+        color: var( --color-ink );
+        margin: 0 0 2.5rem;
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid var( --color-rule );
+        margin: 2.5rem 0;
+        width: 4rem;
+      }
+      footer {
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 0.875rem;
+        color: var( --color-muted );
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Rooted Community</p>
+      <h1>A new home for our work is being prepared.</h1>
+      <p class="lede">
+        We are a community-centered organization prioritizing relationships, trauma-informed healing, and the humanity of our BIPOC community members harmed by racist systems of oppression.
+      </p>
+      <hr />
+      <footer>
+        Serving King, Snohomish, and Pierce counties.
+      </footer>
+    </main>
+  </body>
+</html>
