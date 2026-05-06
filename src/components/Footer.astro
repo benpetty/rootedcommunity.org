@@ -1,0 +1,68 @@
+---
+import type { SiteSettings } from "../lib/sanity";
+
+interface Props {
+  settings: SiteSettings | null;
+}
+
+const { settings } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__col">
+      <h3>Rooted Community</h3>
+      {settings?.siteDescription && <p class="muted">{settings.siteDescription}</p>}
+      {settings?.mailingAddress && <p class="muted" style="white-space:pre-line;">{settings.mailingAddress}</p>}
+    </div>
+
+    <nav class="site-footer__col" aria-label="Footer">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="/mission/">Mission</a></li>
+        <li><a href="/programs/">Programs</a></li>
+        <li><a href="/impact/">Impact</a></li>
+        <li><a href="/team/">Team</a></li>
+        <li><a href="/partners/">Partners</a></li>
+        <li><a href="/get-involved/">Get involved</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="site-footer__col">
+      <h3>Connect</h3>
+      <ul>
+        {settings?.contactEmail && (
+          <li><a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a></li>
+        )}
+        {settings?.partnershipsEmail && (
+          <li><a href={`mailto:${settings.partnershipsEmail}`}>Partnerships: {settings.partnershipsEmail}</a></li>
+        )}
+        {settings?.socialLinks?.instagram && (
+          <li><a href={settings.socialLinks.instagram} target="_blank" rel="noopener">Instagram</a></li>
+        )}
+        {settings?.socialLinks?.facebook && (
+          <li><a href={settings.socialLinks.facebook} target="_blank" rel="noopener">Facebook</a></li>
+        )}
+        {settings?.socialLinks?.linkedin && (
+          <li><a href={settings.socialLinks.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+        )}
+      </ul>
+    </div>
+  </div>
+
+  <div class="site-footer__legal">
+    <span>&copy; {year} Rooted Community.</span>
+    {settings?.nonprofitStatus && <span>{settings.nonprofitStatus}</span>}
+    {settings?.ein && <span>EIN {settings.ein}</span>}
+    {settings?.form990Url && <a href={settings.form990Url} target="_blank" rel="noopener">Form 990</a>}
+    {settings?.fiscalSponsor?.name && (
+      settings.fiscalSponsor.url
+        ? <span>Fiscally sponsored by <a href={settings.fiscalSponsor.url} target="_blank" rel="noopener">{settings.fiscalSponsor.name}</a></span>
+        : <span>Fiscally sponsored by {settings.fiscalSponsor.name}</span>
+    )}
+    <a href="/accessibility/">Accessibility</a>
+    <a href="/privacy/">Privacy</a>
+  </div>
+</footer>

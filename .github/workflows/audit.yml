@@ -62,7 +62,11 @@ jobs:
           path: dist/
       - uses: lycheeverse/lychee-action@v2
         with:
-          args: --root-dir "${{ github.workspace }}/dist" --accept 200,202,301,302,403,429 --no-progress --max-concurrency 8 'dist/**/*.html'
+          # Exclude self-references (canonical and OG meta tags) — they'd otherwise
+          # be checked over HTTP against the live site, creating a chicken-and-egg
+          # failure on PRs that add pages not yet deployed. Internal links are still
+          # verified via --root-dir against the local file system.
+          args: --root-dir "${{ github.workspace }}/dist" --exclude "^https?://(www\.)?rootedcommunity\.org" --accept 200,202,301,302,403,429 --no-progress --max-concurrency 8 'dist/**/*.html'
           fail: true
 
   lighthouse:

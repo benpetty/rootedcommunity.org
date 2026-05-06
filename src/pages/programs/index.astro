@@ -1,0 +1,58 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProgramCard from "../../components/ProgramCard.astro";
+import { getPrograms } from "../../lib/sanity";
+
+const programs = await getPrograms();
+---
+
+<Layout
+  title="Our Programs — Rooted Community"
+  description="Seven programs meeting community members at every stage of the reentry and healing journey, across King, Snohomish, and Pierce counties."
+>
+  <section class="container section">
+    <p class="eyebrow">What we do</p>
+    <h1 class="page-title">Seven programs, one community.</h1>
+    <p class="prose page-intro">
+      Each program meets community members at a different point of the reentry and
+      healing journey — from immediate stabilization to long-term restorative practice.
+    </p>
+  </section>
+
+  <section class="container section">
+    <div class="programs-grid">
+      {programs.map( program => <ProgramCard program={program} /> )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title {
+    font-size: clamp( 2.75rem, 6vw, 5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-top: var( --space-3 );
+    max-width: 22ch;
+  }
+
+  .page-intro {
+    margin-top: var( --space-5 );
+    font-size: var( --text-lg );
+    color: var( --color-muted );
+    line-height: var( --line-snug );
+  }
+
+  .programs-grid {
+    display: grid;
+    gap: var( --space-5 );
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .programs-grid { grid-template-columns: repeat( 2, 1fr ); }
+  }
+
+  @media (min-width: 960px) {
+    .programs-grid { grid-template-columns: repeat( 3, 1fr ); }
+  }
+</style>
