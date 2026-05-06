@@ -1,0 +1,126 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PortableText from "../components/PortableText.astro";
+import DonateTier from "../components/DonateTier.astro";
+import { getGetInvolvedPage, getSiteSettings } from "../lib/sanity";
+
+const page = await getGetInvolvedPage();
+const settings = await getSiteSettings();
+
+const title = page?.pageTitle ?? "Get Involved";
+const partnershipsEmail = settings?.partnershipsEmail;
+---
+
+<Layout title={`${title} — Rooted Community`} description={page?.pageDescription}>
+  <section class="container section">
+    <p class="eyebrow">Stand with us</p>
+    <h1 class="page-title">{title}</h1>
+  </section>
+
+  <section class="container section section--donate">
+    <header class="group-head">
+      <p class="eyebrow">Donate</p>
+    </header>
+    {page?.donateIntro
+      ? <div class="prose"><PortableText value={page.donateIntro} /></div>
+      : <p class="muted prose">We're a small community collective, and we're sustained by people who believe in this work.</p>
+    }
+
+    {page?.donationTiers && page.donationTiers.length > 0 && (
+      <div class="tier-grid fade-in">
+        {page.donationTiers.map( tier => <DonateTier tier={tier} donateUrl={page.donateUrl} /> )}
+      </div>
+    )}
+
+    {page?.donateUrl && !( page.donationTiers && page.donationTiers.length > 0 ) && (
+      <a class="button button--primary" href={page.donateUrl} target="_blank" rel="noopener">
+        Make a donation <span aria-hidden="true">→</span>
+      </a>
+    )}
+  </section>
+
+  <section class="container section">
+    <header class="group-head"><p class="eyebrow">Partner with us</p></header>
+    {page?.partnershipsIntro
+      ? <div class="prose"><PortableText value={page.partnershipsIntro} /></div>
+      : (
+        <p class="prose muted">
+          We work with foundation partners and major donors aligned with community-led
+          healing. For inquiries, write to our partnerships team.
+        </p>
+      )
+    }
+    {partnershipsEmail && (
+      <p class="prose">
+        <a class="button" href={`mailto:${partnershipsEmail}`}>{partnershipsEmail}</a>
+      </p>
+    )}
+  </section>
+
+  <section class="container section">
+    <header class="group-head"><p class="eyebrow">Volunteer</p></header>
+    {page?.volunteerIntro
+      ? <div class="prose"><PortableText value={page.volunteerIntro} /></div>
+      : (
+        <p class="prose muted">
+          Volunteer roles support our circles, peer-support work, and community events.
+          We onboard volunteers in cohorts; reach out to be added to the next cohort list.
+        </p>
+      )
+    }
+    {page?.volunteerCta?.label && page?.volunteerCta?.href && (
+      <p class="prose"><a class="button" href={page.volunteerCta.href}>{page.volunteerCta.label}</a></p>
+    )}
+  </section>
+
+  <section class="container section">
+    <header class="group-head"><p class="eyebrow">Refer a community member</p></header>
+    {page?.referIntro
+      ? <div class="prose"><PortableText value={page.referIntro} /></div>
+      : (
+        <p class="prose muted">
+          If you or someone in your community would benefit from a Rooted program,
+          you can make a referral or self-refer below.
+        </p>
+      )
+    }
+    {page?.referUrl && (
+      <p class="prose">
+        <a class="button" href={page.referUrl} target="_blank" rel="noopener">
+          Refer to a program <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    )}
+  </section>
+</Layout>
+
+<style>
+  .page-title {
+    font-size: clamp( 2.75rem, 6vw, 5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-top: var( --space-3 );
+    max-width: 22ch;
+  }
+
+  .group-head {
+    margin-bottom: var( --space-5 );
+  }
+
+  .section--donate { background: var( --color-surface ); }
+
+  .tier-grid {
+    margin-top: var( --space-7 );
+    display: grid;
+    gap: var( --space-5 );
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .tier-grid { grid-template-columns: repeat( 2, 1fr ); }
+  }
+
+  @media (min-width: 960px) {
+    .tier-grid { grid-template-columns: repeat( 3, 1fr ); }
+  }
+</style>

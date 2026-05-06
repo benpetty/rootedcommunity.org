@@ -1,0 +1,89 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PersonCard from "../components/PersonCard.astro";
+import { getPeople, type Person, type PersonType } from "../lib/sanity";
+
+const people = await getPeople();
+
+const GROUPS: { type: PersonType; label: string }[] = [
+  { type: "staff", label: "Staff" },
+  { type: "board", label: "Board" },
+  { type: "advisor", label: "Advisors" },
+  { type: "volunteer", label: "Volunteers" },
+];
+
+const groupedPeople = GROUPS.map( group => ({
+  ...group,
+  people: people.filter( person => person.type === group.type ),
+}) ).filter( group => group.people.length > 0 );
+---
+
+<Layout
+  title="Team — Rooted Community"
+  description="The people behind Rooted Community: staff, board, and advisors guiding our work."
+>
+  <section class="container section">
+    <p class="eyebrow">Our team</p>
+    <h1 class="page-title">The people of Rooted Community.</h1>
+    <p class="prose page-intro">
+      Rooted is led by people who have lived through what we now help others heal from.
+      Lived experience and professional expertise sit at the same table.
+    </p>
+  </section>
+
+  {groupedPeople.length > 0
+    ? groupedPeople.map( group => (
+      <section class="container section">
+        <header class="group-head fade-in">
+          <p class="eyebrow">{group.label}</p>
+        </header>
+        <div class="people-grid">
+          {group.people.map( person => <PersonCard person={person} /> )}
+        </div>
+      </section>
+    ) )
+    : (
+      <section class="container section">
+        <p class="muted prose">
+          Team profiles will appear here as our staff, board, and advisors have a chance to share their bios.
+          For partnership inquiries in the meantime, please use the contact page.
+        </p>
+      </section>
+    )
+  }
+</Layout>
+
+<style>
+  .page-title {
+    font-size: clamp( 2.75rem, 6vw, 5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-top: var( --space-3 );
+    max-width: 22ch;
+  }
+
+  .page-intro {
+    margin-top: var( --space-5 );
+    font-size: var( --text-lg );
+    color: var( --color-muted );
+    line-height: var( --line-snug );
+  }
+
+  .group-head {
+    margin-bottom: var( --space-6 );
+  }
+
+  .people-grid {
+    display: grid;
+    gap: var( --space-7 ) var( --space-6 );
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .people-grid { grid-template-columns: repeat( 2, 1fr ); }
+  }
+
+  @media (min-width: 960px) {
+    .people-grid { grid-template-columns: repeat( 3, 1fr ); }
+  }
+</style>

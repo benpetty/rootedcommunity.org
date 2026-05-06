@@ -1,0 +1,102 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getContactPage, getSiteSettings } from "../lib/sanity";
+
+const page = await getContactPage();
+const settings = await getSiteSettings();
+
+const title = page?.pageTitle ?? "Contact";
+
+const fallbackChannels: { label: string; address?: string; description?: string }[] = [];
+if( settings?.contactEmail ) fallbackChannels.push({ label: "General", address: settings.contactEmail, description: "For general questions about Rooted Community." });
+if( settings?.partnershipsEmail ) fallbackChannels.push({ label: "Partnerships and funders", address: settings.partnershipsEmail, description: "For foundation officers and major donors." });
+if( settings?.mailingAddress ) fallbackChannels.push({ label: "Mailing address", address: settings.mailingAddress });
+
+const channels = page?.channels && page.channels.length > 0 ? page.channels : fallbackChannels;
+---
+
+<Layout title={`${title} — Rooted Community`} description={page?.pageDescription}>
+  <section class="container section">
+    <p class="eyebrow">Reach us</p>
+    <h1 class="page-title">{title}</h1>
+    {page?.intro && <p class="prose page-intro">{page.intro}</p>}
+  </section>
+
+  <section class="container section">
+    {channels.length > 0
+      ? (
+        <ul class="channels">
+          {channels.map( channel => (
+            <li class="channel fade-in">
+              {channel.label && <p class="eyebrow">{channel.label}</p>}
+              {channel.address && (
+                channel.address.includes( "@" )
+                  ? <a class="channel__address" href={`mailto:${channel.address}`}>{channel.address}</a>
+                  : <p class="channel__address" style="white-space:pre-line;">{channel.address}</p>
+              )}
+              {channel.description && <p class="channel__description muted">{channel.description}</p>}
+            </li>
+          ) )}
+        </ul>
+      )
+      : (
+        <p class="muted prose">
+          Contact details are being set up. Check back soon — or follow our work on the channels linked in the footer.
+        </p>
+      )
+    }
+  </section>
+</Layout>
+
+<style>
+  .page-title {
+    font-size: clamp( 2.75rem, 6vw, 5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-top: var( --space-3 );
+    max-width: 18ch;
+  }
+
+  .page-intro {
+    margin-top: var( --space-5 );
+    font-size: var( --text-lg );
+    color: var( --color-muted );
+    line-height: var( --line-snug );
+  }
+
+  .channels {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var( --space-7 );
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    .channels { grid-template-columns: repeat( 2, 1fr ); }
+  }
+
+  .channel {
+    display: flex;
+    flex-direction: column;
+    gap: var( --space-2 );
+  }
+
+  .channel__address {
+    font-family: var( --font-display );
+    font-size: clamp( 1.5rem, 3vw, 2rem );
+    line-height: var( --line-snug );
+    color: var( --color-forest );
+    text-decoration: none;
+    margin: 0;
+  }
+
+  a.channel__address:hover { color: var( --color-clay ); }
+
+  .channel__description {
+    font-size: var( --text-sm );
+    line-height: var( --line-snug );
+    margin: 0;
+  }
+</style>

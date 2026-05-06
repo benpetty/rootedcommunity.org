@@ -1,0 +1,73 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PortableText from "../components/PortableText.astro";
+import ImpactStat from "../components/ImpactStat.astro";
+import { getImpactPage, getImpactMetrics } from "../lib/sanity";
+
+const page = await getImpactPage();
+const fallbackMetrics = await getImpactMetrics();
+const metrics = ( page?.featuredMetrics && page.featuredMetrics.length > 0 )
+  ? page.featuredMetrics
+  : fallbackMetrics;
+const title = page?.pageTitle ?? "Our Impact";
+---
+
+<Layout title={`${title} — Rooted Community`} description={page?.pageDescription}>
+  <section class="container section">
+    <p class="eyebrow">Our work, measured</p>
+    <h1 class="page-title">{title}</h1>
+    {page?.intro && <div class="prose page-intro"><PortableText value={page.intro} /></div>}
+  </section>
+
+  {metrics.length > 0
+    ? (
+      <section class="container section">
+        <div class="metrics-grid">
+          {metrics.map( metric => (
+            <ImpactStat
+              value={metric.value}
+              label={metric.label}
+              context={metric.source}
+            />
+          ) )}
+        </div>
+      </section>
+    )
+    : (
+      <section class="container section">
+        <p class="muted prose">Impact data for our current year of operation will appear here as our program leads complete their reporting.</p>
+      </section>
+    )
+  }
+
+  {page?.yearInReview && (
+    <section class="container section">
+      <p class="eyebrow">{page.yearInReviewYear ? `${page.yearInReviewYear} in review` : "Year in review"}</p>
+      <div class="prose"><PortableText value={page.yearInReview} /></div>
+    </section>
+  )}
+</Layout>
+
+<style>
+  .page-title {
+    font-size: clamp( 2.75rem, 6vw, 5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-top: var( --space-3 );
+    max-width: 24ch;
+  }
+
+  .page-intro {
+    margin-top: var( --space-5 );
+  }
+
+  .metrics-grid {
+    display: grid;
+    gap: var( --space-7 );
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    .metrics-grid { grid-template-columns: repeat( 2, 1fr ); gap: var( --space-7 ) var( --space-8 ); }
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PortableText from "../../components/PortableText.astro";
+import { urlFor } from "../../lib/image";
+import { getPrograms, getProgram } from "../../lib/sanity";
+
+export async function getStaticPaths() {
+  const programs = await getPrograms();
+  return programs.map( program => ({
+    params: { slug: program.slug.current },
+  }) );
+}
+
+const { slug } = Astro.params;
+if( !slug ) return Astro.redirect( "/programs/" );
+
+const program = await getProgram( slug );
+if( !program ) return Astro.redirect( "/programs/" );
+
+const heroSrc = program.heroImage?.asset
+  ? urlFor( program.heroImage ).width( 1600 ).height( 900 ).format( "webp" ).url()
+  : null;
+---
+
+<Layout
+  title={`${program.name} — Rooted Community`}
+  description={program.summary}
+  ogImage={heroSrc ?? undefined}
+>
+  <section class="container section">
+    <p class="eyebrow"><a href="/programs/">All programs</a></p>
+    <h1 class="program-title">{program.name}</h1>
+    {program.summary && <p class="prose program-summary">{program.summary}</p>}
+  </section>
+
+  {heroSrc && (
+    <section class="container section">
+      <figure class="program-hero fade-in">
+        <img src={heroSrc} alt={program.heroImage?.alt ?? program.name} width="1600" height="900" loading="eager" decoding="async" />
+      </figure>
+    </section>
+  )}
+
+  <section class="container section">
+    <div class="program-detail">
+      {program.whoItServes && (
+        <div class="program-detail__block fade-in">
+          <h2>Who it serves</h2>
+          <p>{program.whoItServes}</p>
+        </div>
+      )}
+
+      {program.howItWorks && (
+        <div class="program-detail__block fade-in">
+          <h2>How it works</h2>
+          <PortableText value={program.howItWorks} />
+        </div>
+      )}
+
+      {program.eligibility && (
+        <div class="program-detail__block fade-in">
+          <h2>Eligibility</h2>
+          <p>{program.eligibility}</p>
+        </div>
+      )}
+
+      {program.outcome && (
+        <div class="program-detail__block fade-in">
+          <h2>Outcome</h2>
+          <PortableText value={program.outcome} />
+        </div>
+      )}
+    </div>
+
+    {program.referralUrl && (
+      <div class="program-cta fade-in">
+        <a href={program.referralUrl} class="button button--primary" target="_blank" rel="noopener">
+          Refer to {program.name} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    )}
+  </section>
+</Layout>
+
+<style>
+  .program-title {
+    font-size: clamp( 2.5rem, 5.5vw, 4.5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-top: var( --space-3 );
+    max-width: 24ch;
+  }
+
+  .program-summary {
+    margin-top: var( --space-5 );
+    font-size: var( --text-lg );
+    color: var( --color-ink );
+    line-height: var( --line-snug );
+  }
+
+  .program-hero {
+    margin: 0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .program-hero img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    filter: saturate( 0.95 );
+  }
+
+  .program-detail {
+    display: grid;
+    gap: var( --space-8 );
+    max-width: var( --prose-width );
+  }
+
+  .program-detail__block h2 {
+    font-family: var( --font-body );
+    font-size: var( --text-xs );
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var( --color-forest );
+    margin-bottom: var( --space-3 );
+  }
+
+  .program-cta {
+    margin-top: var( --space-7 );
+  }
+</style>

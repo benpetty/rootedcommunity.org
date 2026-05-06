@@ -1,0 +1,90 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PartnerLogo from "../components/PartnerLogo.astro";
+import { getPartners, type PartnerType } from "../lib/sanity";
+
+const partners = await getPartners();
+
+const GROUPS: { type: PartnerType; label: string; intro: string }[] = [
+  { type: "funder", label: "Funders", intro: "Foundations and individual major donors who make our work possible." },
+  { type: "coalition", label: "Coalition partners", intro: "Organizations we work alongside in the broader restorative justice ecosystem." },
+  { type: "fiscal-sponsor", label: "Fiscal sponsorship", intro: "Our fiscal sponsorship relationship." },
+  { type: "in-kind", label: "In-kind supporters", intro: "Partners providing services, space, or resources at no cost." },
+];
+
+const groupedPartners = GROUPS.map( group => ({
+  ...group,
+  partners: partners.filter( partner => partner.type === group.type ),
+}) ).filter( group => group.partners.length > 0 );
+---
+
+<Layout
+  title="Partners and funders — Rooted Community"
+  description="The coalition partners, foundations, and supporters whose collaboration makes Rooted's work possible."
+>
+  <section class="container section">
+    <p class="eyebrow">In community</p>
+    <h1 class="page-title">Our partners and funders.</h1>
+    <p class="prose page-intro">
+      Rooted's work is only possible through partnership — with funders who share our
+      commitment to community-led healing, and with peer organizations who hold pieces
+      of the same systemic challenge.
+    </p>
+  </section>
+
+  {groupedPartners.length > 0
+    ? groupedPartners.map( group => (
+      <section class="container section">
+        <header class="group-head fade-in">
+          <p class="eyebrow">{group.label}</p>
+          <p class="muted prose">{group.intro}</p>
+        </header>
+        <div class="partner-grid fade-in">
+          {group.partners.map( partner => <PartnerLogo partner={partner} /> )}
+        </div>
+      </section>
+    ) )
+    : (
+      <section class="container section">
+        <p class="muted prose">
+          Partner and funder profiles will appear here as we confirm permission to display each partner's name and logo.
+          For foundation partnership inquiries, please reach our partnerships email on the contact page.
+        </p>
+      </section>
+    )
+  }
+</Layout>
+
+<style>
+  .page-title {
+    font-size: clamp( 2.75rem, 6vw, 5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-top: var( --space-3 );
+    max-width: 22ch;
+  }
+
+  .page-intro {
+    margin-top: var( --space-5 );
+    font-size: var( --text-lg );
+    color: var( --color-muted );
+    line-height: var( --line-snug );
+  }
+
+  .group-head {
+    margin-bottom: var( --space-6 );
+    max-width: 36rem;
+    display: flex;
+    flex-direction: column;
+    gap: var( --space-3 );
+  }
+
+  .partner-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var( --space-5 ) var( --space-7 );
+    align-items: center;
+    padding-top: var( --space-5 );
+    border-top: 1px solid var( --color-rule );
+  }
+</style>

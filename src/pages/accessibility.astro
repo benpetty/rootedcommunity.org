@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Accessibility — Rooted Community"
+  description="Rooted Community is committed to making this website usable for everyone."
+>
+  <section class="container section">
+    <p class="eyebrow">Statement</p>
+    <h1 class="page-title">Accessibility</h1>
+  </section>
+
+  <section class="container section">
+    <div class="prose">
+      <p>
+        Rooted Community is committed to making this website usable for everyone, including
+        people who use assistive technology. We aim to meet the
+        <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">
+          Web Content Accessibility Guidelines (WCAG) 2.2 Level AA
+        </a>
+        across the site.
+      </p>
+      <p>
+        If you encounter content that is difficult to access, please let us know. We treat
+        accessibility issues as bugs and prioritize fixes accordingly. The fastest way to
+        reach us is through the
+        <a href="/contact/">contact page</a>.
+      </p>
+      <h2>What we work to provide</h2>
+      <ul>
+        <li>Semantic HTML structure with ARIA landmarks for assistive technology</li>
+        <li>Keyboard-navigable interfaces with visible focus indicators</li>
+        <li>Sufficient color contrast in line with WCAG 2.2 AA</li>
+        <li>Descriptive alternative text on meaningful images</li>
+        <li>Animations that respect <code>prefers-reduced-motion</code></li>
+        <li>Content that scales cleanly when zoomed up to 200%</li>
+      </ul>
+      <h2>Known gaps</h2>
+      <p>
+        This site is in active development. Some pages have less-than-final structure or
+        placeholder imagery. As we ship each page, we test against axe-core and manual
+        screen-reader checks. If something specific isn't working for you, please let us know.
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title {
+    font-size: clamp( 2.75rem, 6vw, 5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    margin-top: var( --space-3 );
+  }
+</style>

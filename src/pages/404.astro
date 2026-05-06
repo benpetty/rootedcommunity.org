@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Page not found — Rooted Community"
+  description="The page you're looking for isn't here."
+>
+  <section class="container section section--404">
+    <p class="eyebrow">404</p>
+    <h1 class="page-title">This page isn't here.</h1>
+    <p class="prose">
+      The link may be broken, or the page may have moved as we rebuild this site.
+    </p>
+    <div class="actions">
+      <a href="/" class="button button--primary">Back home</a>
+      <a href="/programs/" class="button">Our programs</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .section--404 {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var( --space-4 );
+  }
+
+  .page-title {
+    font-size: clamp( 2.75rem, 6vw, 5rem );
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    max-width: 18ch;
+  }
+
+  .actions {
+    margin-top: var( --space-5 );
+    display: flex;
+    gap: var( --space-3 );
+    flex-wrap: wrap;
+  }
+</style>
