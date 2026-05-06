@@ -6,8 +6,9 @@
 //     to query for draft asset URLs).
 //
 // Visual direction: printmaking / solidarity-poster illustration —
-// bold woodcut and linocut feel, BIPOC figures depicted with dignity,
-// urban Pacific Northwest community settings. See
+// bold woodcut and linocut feel, palette-locked, abstract and
+// symbolic (NO FACES, NO PORTRAITS). Hands and objects stand in for
+// human presence. See
 // docs/superpowers/specs/2026-05-06-ai-placeholder-imagery-design.md
 // for the full direction rationale.
 //
@@ -15,55 +16,55 @@
 // slot is the supported way to iterate. The shared brand-aesthetic
 // suffix lives in BRAND_AESTHETIC_SUFFIX so it can drift in one place.
 
-export const BRAND_AESTHETIC_SUFFIX = "Bold woodcut and linocut illustration style, high contrast with strong black linework and visible carving texture. Limited warm color palette: cream background, deep forest green, clay rust accents — flat printed colors over cream. BIPOC figures (Black, Indigenous, and Brown people of color) rendered with solidarity and dignity in the visual tradition of Emory Douglas (Black Panther graphic design), Just Seeds collective, Favianna Rodriguez, and Amplifier Art posters. Strong graphic shapes, hand-printed feel. Urban Pacific Northwest neighborhoods (Seattle and Tacoma). No text, no lettering, no signage. No photorealism — this is hand-printed illustration.";
+export const BRAND_AESTHETIC_SUFFIX = "Bold woodcut and linocut illustration style, high contrast with strong black linework and visible carving texture. Limited warm color palette: cream background, deep forest green, clay rust accents — flat printed colors over cream. Abstract and symbolic composition — hands (rendered with brown and dark skin tones where visible, with cuffs of clothing showing), objects, natural elements, and architectural fragments stand in for human presence. ABSOLUTELY NO FACES, no portraits, no figures with visible features, no full bodies. Visual lineage of Emory Douglas (Black Panther graphic design), Just Seeds collective, Favianna Rodriguez, and Amplifier Art posters. Strong graphic shapes, hand-printed feel. Reads as one piece in a series of woodblock prints by a single artist. No text, no lettering, no signage. No photorealism — this is hand-printed illustration.";
 
 export const SLOTS = [
   {
     documentId: "homePage",
     imagePath: "heroImage",
     label: "Home hero",
-    subject: "A small multi-generational group of BIPOC people — Black, Indigenous, and Brown youth and adults — standing close together on an urban sidewalk in front of an apartment building. A sense of solidarity and rootedness in community.",
+    subject: "A stylized tree rendered in woodcut linocut style — strong central trunk, branching crown reaching upward into the cream sky, intricate root system spreading deep underground in finely-carved black lines. The roots and branches mirror each other. Forest-green foliage in the canopy with small clay-rust accents. A symbol of rooted community. Brand emblem composition.",
   },
   {
     documentId: "program-housing-support",
     imagePath: "heroImage",
     label: "Housing Support",
-    subject: "A BIPOC person's hand turning a key in an apartment door, with the partial figure of another person carrying a moving box behind them. Urban apartment building exterior, late afternoon light.",
+    subject: "A wooden apartment door, slightly ajar. A hand with brown skin reaches toward a key in the lock. Beyond the threshold, warm carved light. Strong vertical lines of the doorframe.",
   },
   {
     documentId: "program-immediate-needs-support",
     imagePath: "heroImage",
     label: "Immediate Needs Support",
-    subject: "Two BIPOC figures in profile on an urban sidewalk outside a small community center — one handing the other a tote bag of supplies. The moment of concrete care.",
+    subject: "Two pairs of hands meeting over an open canvas tote bag — one passing supplies (a folded blanket, a thermos, a notebook visible inside), the other receiving. Carved table edge below. The moment of concrete care, no faces.",
   },
   {
     documentId: "program-peer-mental-support",
     imagePath: "heroImage",
     label: "Peer/Mental Support",
-    subject: "Two BIPOC figures sitting side by side on a community-center bench, one talking and one listening, with cups of tea between them. Profile views, communal warmth.",
+    subject: "Two pairs of hands cupping ceramic mugs across a low table, steam rising in carved curling lines. Hands shown with brown and dark skin tones, cuffs of sweaters visible. No faces. Communal stillness.",
   },
   {
     documentId: "program-legal-court-advocacy",
     imagePath: "heroImage",
     label: "Legal/Court Advocacy",
-    subject: "A BIPOC person walking up the front steps of a public building with an advocate beside them, slightly behind. Bold architectural lines of the building. Sense of accompaniment, not isolation.",
+    subject: "Strong vertical columns and wide stone steps of a public building. A hand with brown skin resting on another person's shoulder seen from behind, both partial figures climbing the steps. Sense of accompaniment, no faces visible.",
   },
   {
     documentId: "program-lfo-relief-program",
     imagePath: "heroImage",
     label: "LFO Relief",
-    subject: "Two BIPOC hands at a kitchen table — one pointing at a stack of paperwork, the other holding a pen. The texture of administrative weight, but with help present.",
+    subject: "An overhead view of a kitchen table with a stack of legal papers, a pen, an open envelope. Two pairs of hands at the edges — one pointing at a paper, the other holding the pen. Hands shown with brown and dark skin tones, cuffs of clothing visible. Administrative weight, but with help present. No faces.",
   },
   {
     documentId: "program-adult-community-circles",
     imagePath: "heroImage",
     label: "Adult Community Circles",
-    subject: "An overhead or three-quarter view of a circle of BIPOC adults seated together in a community room, a talking piece (a stone or feather) at the center. Hands and shoulders visible. Indigenous-rooted circle practice.",
+    subject: "An overhead view of a circle of pairs of hands resting palms-up on knees, with a talking piece (a smooth river stone with a feather laid across it) at the very center. Hands rendered with varied brown and dark skin tones. Carved wood-floor texture beneath. No faces, no full bodies.",
   },
   {
     documentId: "program-youth-community-circles",
     imagePath: "heroImage",
     label: "Youth Community Circles",
-    subject: "A circle of BIPOC teenagers seated together on the floor of a community-center room, a talking piece at the center, sketchbooks open beside them. Young, alive, communal.",
+    subject: "An overhead view of an open sketchbook with simple drawings on its pages at the center, surrounded by smaller hands holding pencils and oil pastels, a talking piece (a small stone) beside the sketchbook. Hands rendered with varied brown and dark skin tones. No faces, no full bodies.",
   },
 ];

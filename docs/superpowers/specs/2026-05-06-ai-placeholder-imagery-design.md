@@ -7,7 +7,8 @@
 ## Revision history
 
 - **2026-05-06 (initial):** AI-generated *photography*, atmospheric / no-people / PNW-landscape framing. First generation pass produced imagery that read as a "hippie camping retreat" — completely off-brand for an urban BIPOC-serving org.
-- **2026-05-06 (pivot):** Switched to AI-generated *illustration* in the printmaking / solidarity-poster tradition (Emory Douglas, Just Seeds, Favianna Rodriguez, Amplifier Art). BIPOC figures depicted with dignity in urban Pacific Northwest community settings. Tooling unchanged (`mcp__Sanity__generate_image`); only the prompts and the project image-direction memory shifted.
+- **2026-05-06 (pivot to illustration):** Switched to AI-generated *illustration* in the printmaking / solidarity-poster tradition (Emory Douglas, Just Seeds, Favianna Rodriguez, Amplifier Art). BIPOC figures depicted with dignity in urban Pacific Northwest community settings. Tooling unchanged (`mcp__Sanity__generate_image`); only the prompts and the project image-direction memory shifted.
+- **2026-05-06 (refinement: abstract / no faces):** Aesthetic register validated — printmaking style is locked. Subjects refined to be abstract and symbolic rather than literal-figural: hands, objects, natural elements, and architectural fragments stand in for human presence. NO FACES, NO PORTRAITS in any illustration. Home page hero pivots to a tree-and-roots brand emblem (the org name is "Rooted Community"). BIPOC visual representation is preserved through brown/dark skin tones rendered on hands.
 
 ## Goal
 
@@ -26,14 +27,14 @@ These are *placeholders*, not final art. The goal is to retire the visual emptin
 
 | Slot | Document ID | Field path | Subject |
 |------|-------------|------------|---------|
-| Home hero | `homePage` | `heroImage` | Multi-generational BIPOC group standing close together on an urban sidewalk in front of an apartment building. Solidarity, rootedness in community. |
-| Housing Support | `program-housing-support` | `heroImage` | A BIPOC person's hand turning a key in an apartment door; partial figure of another person carrying a moving box behind. Urban apartment exterior, late afternoon. |
-| Immediate Needs Support | `program-immediate-needs-support` | `heroImage` | Two BIPOC figures in profile on an urban sidewalk outside a small community center — one handing the other a tote bag of supplies. The moment of concrete care. |
-| Peer/Mental Support | `program-peer-mental-support` | `heroImage` | Two BIPOC figures on a community-center bench, one talking, one listening, cups of tea between them. Profile views, communal warmth. |
-| Legal/Court Advocacy | `program-legal-court-advocacy` | `heroImage` | A BIPOC person walking up the front steps of a public building, an advocate beside them. Bold architectural lines. Sense of accompaniment. |
-| LFO Relief | `program-lfo-relief-program` | `heroImage` | Two BIPOC hands at a kitchen table — one pointing at a stack of paperwork, the other holding a pen. Administrative weight, but with help present. |
-| Adult Community Circles | `program-adult-community-circles` | `heroImage` | Overhead view of a circle of BIPOC adults in a community room, talking piece (stone or feather) at center. Indigenous-rooted circle practice. |
-| Youth Community Circles | `program-youth-community-circles` | `heroImage` | A circle of BIPOC teenagers seated together on a community-center floor, talking piece at center, sketchbooks beside them. Young, alive, communal. |
+| Home hero | `homePage` | `heroImage` | Stylized woodcut tree — strong trunk, branching crown reaching up, intricate root system spreading deep below. Brand emblem for "Rooted Community". |
+| Housing Support | `program-housing-support` | `heroImage` | A wooden apartment door slightly ajar; a brown-skinned hand reaching toward a key in the lock. No face. |
+| Immediate Needs Support | `program-immediate-needs-support` | `heroImage` | Two pairs of hands meeting over an open tote bag of supplies — one passing, one receiving. No faces. |
+| Peer/Mental Support | `program-peer-mental-support` | `heroImage` | Two pairs of hands cupping ceramic mugs across a low table, steam rising in carved lines. No faces. |
+| Legal/Court Advocacy | `program-legal-court-advocacy` | `heroImage` | Vertical columns and wide steps of a public building; a hand resting on another's shoulder, partial figures climbing the steps from behind. No faces. |
+| LFO Relief | `program-lfo-relief-program` | `heroImage` | Overhead of a kitchen table with legal papers, a pen, an open envelope; two pairs of hands at the edges (one pointing, one holding the pen). No faces. |
+| Adult Community Circles | `program-adult-community-circles` | `heroImage` | Overhead of a circle of palms-up hands resting on knees with a talking piece (stone with feather) at center. No faces, no full bodies. |
+| Youth Community Circles | `program-youth-community-circles` | `heroImage` | Overhead of an open sketchbook surrounded by smaller hands holding pencils and oil pastels; a small stone beside the sketchbook. No faces. |
 
 Source aspect from `mcp__Sanity__generate_image` is determined by the model and is not a config we can pin per slot. Sanity's image-url builder crops to whatever aspect each component requests (16:9 hero, 4:3 program card), so source variance does not affect rendering.
 
@@ -50,9 +51,11 @@ From `~/.claude/projects/-Users-benny-dev-rootedcommunity-org/memory/project_ima
 
 - **Palette:** forest `#2F4F3E`, clay rust `#B8552E`, cream `#FBF7F0`, off-white `#F3EDE0`, ink `#1B2A22`, moss `#6B8A6B` optional. Bold flat color over cream — printed not painted.
 - **Illustration not photography.** Bold woodcut / linocut feel — strong black linework, visible carving texture, hand-printed register.
-- **BIPOC representation in illustration is encouraged**, with dignity and care, in the visual lineage of Emory Douglas, Just Seeds, Favianna Rodriguez, Amplifier Art. (Photography of real community members still requires explicit consent — that rule does not apply to illustrated figures.)
+- **Abstract and symbolic over literal-figural.** Hands, objects, natural elements, architectural fragments are the load-bearing visual elements. **NO FACES, NO PORTRAITS, NO FULL FIGURES with visible features.** BIPOC visual representation persists through brown/dark skin tones rendered on hands and partial figures from behind.
+- **Visual lineage:** Emory Douglas, Just Seeds, Favianna Rodriguez, Amplifier Art. The carved-print register supports symbolic composition directly — the medium has always used hands, silhouettes, and objects as load-bearing.
+- **Tree-and-roots imagery is on-brand** for the org name "Rooted Community" and is the home-hero direction.
 - **No incarceration tropes** (chains, bars, cells, gavels, scales of justice).
-- **Urban PNW context** — Seattle and Tacoma neighborhoods, apartments, community centers, sidewalks, transit, public buildings, kitchens. Not pastoral / forest / camping.
+- **Urban PNW visual register** — Seattle and Tacoma neighborhoods, apartments, community centers, sidewalks, transit, public buildings, kitchens — but rendered as object/architectural fragments, not full scenes.
 - **No text or signage in illustrations** — letterforms slip and produce gibberish.
 
 These constraints are encoded into a single `BRAND_AESTHETIC_SUFFIX` string appended to every per-slot prompt, so reproducibility and brand drift control are centralized.
@@ -149,18 +152,23 @@ Defined once in `scripts/image-prompts.mjs`:
 Bold woodcut and linocut illustration style, high contrast with strong
 black linework and visible carving texture. Limited warm color palette:
 cream background, deep forest green, clay rust accents — flat printed
-colors over cream. BIPOC figures (Black, Indigenous, and Brown people
-of color) rendered with solidarity and dignity in the visual tradition
-of Emory Douglas (Black Panther graphic design), Just Seeds collective,
-Favianna Rodriguez, and Amplifier Art posters. Strong graphic shapes,
-hand-printed feel. Urban Pacific Northwest neighborhoods (Seattle and
-Tacoma). No text, no lettering, no signage. No photorealism — this is
-hand-printed illustration.
+colors over cream. Abstract and symbolic composition — hands (rendered
+with brown and dark skin tones where visible, with cuffs of clothing
+showing), objects, natural elements, and architectural fragments stand
+in for human presence. ABSOLUTELY NO FACES, no portraits, no figures
+with visible features, no full bodies. Visual lineage of Emory Douglas
+(Black Panther graphic design), Just Seeds collective, Favianna
+Rodriguez, and Amplifier Art posters. Strong graphic shapes, hand-
+printed feel. Reads as one piece in a series of woodblock prints by a
+single artist. No text, no lettering, no signage. No photorealism —
+this is hand-printed illustration.
 ```
 
 The reference-illustrator names in the suffix are load-bearing: they anchor the model toward a specific, well-trained visual lineage rather than the generic "illustration" register that produces marketing-clip-art results.
 
-Negative clauses (`No text, no lettering, no signage`) are deliberately repeated. Letterforms in AI illustration consistently come out as gibberish — explicit suppression is more reliable than hoping the model omits them.
+The "ABSOLUTELY NO FACES" clause uses emphasis intentionally. AI illustration models default to including faces in any composition that mentions "people" or human activity — explicit suppression in capital letters is the most reliable way to keep them out.
+
+The "brown and dark skin tones on hands" clause preserves BIPOC visual representation when faces are removed. Without it, hands often render as default-light-skinned, which would erase the visual register the org is grounded in.
 
 The full instruction sent to `generate_image` per slot is `${slot.subject} ${BRAND_AESTHETIC_SUFFIX}`.
 
