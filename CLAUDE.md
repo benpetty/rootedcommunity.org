@@ -56,9 +56,8 @@ Type: Newsreader Variable (display, opsz axis) + Inter Variable (body, wght axis
 
 ## CI
 
-- `ci.yml` — type check + audit on PR
-- `audit.yml` — build, sitemap validate, lychee link check (excludes self-domain to avoid chicken-and-egg on PRs that add new pages), Lighthouse audit (continue-on-error)
-- `deploy.yml` — deploy to Pages on push to `main` and on Sanity webhook (`repository_dispatch` `sanity-content-update`)
+- `pipeline.yml` — single ordered chain: type-check + audit run first, deploy waits on both. Triggers: `pull_request` (PR runs typecheck + audit only), `push` to `main` (full chain incl. deploy), `repository_dispatch sanity-content-update` (Sanity webhook → deploy), `workflow_dispatch` (manual)
+- `audit.yml` — reusable: build (uploads `dist` artifact), sitemap validate, lychee link check (excludes self-domain to avoid chicken-and-egg on PRs that add new pages), Lighthouse audit (continue-on-error)
 - `nightly.yml` — daily audit run at 08:27 UTC
 
 ## Hosting
