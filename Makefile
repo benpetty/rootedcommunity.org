@@ -3,7 +3,7 @@ export
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install dev build preview studio deploy-studio seed seed-replace patch-mission-toc publish-drafts og-image lint format upgrade upgrade-latest
+.PHONY: help install dev build preview studio deploy-studio seed seed-replace patch-mission-toc publish-drafts image-review og-image lint format upgrade upgrade-latest
 
 help: ## Show this help message with all available targets
 	@grep -hE '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
@@ -48,6 +48,9 @@ publish-drafts: ## Patch all 7 programs + Theory of Change with framework-level 
 	SANITY_WRITE_TOKEN="$$TOKEN_KEY" node scripts/publish-drafts.mjs; \
 	echo "Cleaning up temporary token..."; \
 	(cd studio && npx -y sanity@latest tokens delete "$$TOKEN_ID" --yes) || echo "Token cleanup failed; delete '$$TOKEN_ID' manually if needed"
+
+image-review: ## Print draft asset URLs for the 8 hero-image slots (no writes)
+	node scripts/image-review.mjs
 
 lint: ## Run ESLint
 	yarn lint
