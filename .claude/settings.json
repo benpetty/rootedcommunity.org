@@ -1,8 +1,6 @@
 {
     "permissions": {
         "deny": [
-            "Read(.env)",
-            "Edit(.env)",
             "Read(studio/.env)",
             "Edit(studio/.env)",
             "Edit(node_modules/**)",

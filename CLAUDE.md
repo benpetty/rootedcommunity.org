@@ -17,8 +17,7 @@ Marketing site for **Rooted Community**, a small WA-based nonprofit serving syst
 
 - **Build-time GROQ only.** All Sanity fetches happen at build time inside `.astro` files. **Never introduce runtime client-side Sanity calls** — that would defeat the static-site model and SEO. Use `getSiteSettings()`, `getProgram(slug)`, etc. from `src/lib/sanity.ts`.
 - **Pages render gracefully with empty fields.** Every Sanity field outside `name` / `slug` / `siteTitle` / `heroHeadline` is optional. Pages must conditionally render sections (e.g. `{page?.intro && ...}`) so the org can publish with sparse data and fill in over time.
-- **No fallback values for required env vars.** `src/lib/sanity.ts` asserts at module load. `PUBLIC_GOOGLE_ANALYTICS_ID` is a true optional — `BaseHead.astro` only renders GA if set, no default ID.
-- **`.env` is read-denied for Claude.** Do not attempt to read or edit it; the live API token is in there. Use `make seed` (which sources `.env` via Makefile) to interact with Sanity from scripts.
+- **Env asserts live in `src/lib/sanity.ts`.** Module-load `assert` on required Sanity vars (per global "strict env vars" rule). `PUBLIC_GOOGLE_ANALYTICS_ID` is a true optional — `BaseHead.astro` only renders GA if set, no default ID.
 - **Always commit on a feature branch + open a PR.** Never push directly to `main`. The deploy workflow runs on `main` push.
 - **Use `make seed` (idempotent `--missing`) for content seeding.** `make seed-replace` overwrites Studio edits — only use intentionally.
 
