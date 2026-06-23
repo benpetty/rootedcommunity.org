@@ -4,3 +4,8 @@
 # /404/ — the 404 page contains a self-canonical link, which (correctly) returns 404
 # on the live site. Not an error; that's what 404 pages do.
 https://rootedcommunity.org/404/
+
+# law.uw.edu (UW Race & Justice Clinic partner link) resets the connection on
+# automated checkers — "Connection reset by peer (os error 104)" — while returning
+# 200 in real browsers. Server-side anti-bot, not a dead link. Verified 2026-06-23.
+https://www.law.uw.edu/academics/experiential-learning/clinics/race-and-justice
