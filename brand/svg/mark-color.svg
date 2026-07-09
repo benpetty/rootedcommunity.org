@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Rooted Community tree-of-life mark">
+  <defs>
+    <g id="roots" fill="#2F4F3E">
+      <path d="M96 114 C 74 130 54 148 24 182 C 52 152 74 136 100 122 Z"/>
+      <path d="M98 116 C 86 136 74 154 56 180 C 76 156 90 138 101 123 Z"/>
+      <path d="M99 118 C 96 142 94 162 86 188 C 95 162 100 142 102 124 Z"/>
+      <path d="M88 122 C 78 130 70 137 60 150 C 70 138 78 132 92 124 Z"/>
+    </g>
+  </defs>
+  <use href="#roots"/>
+  <use href="#roots" transform="translate(200,0) scale(-1,1)"/>
+  <path fill="#2F4F3E" d="M97 120 C 97 146 97 166 100 190 C 103 166 103 146 103 120 Z"/>
+  <path fill="#2F4F3E" d="M87 92 C 90 100 95 104 96 108 C 95 112 90 116 89 120 L111 120 C 110 116 105 112 104 108 C 105 104 110 100 113 92 Z"/>
+  <circle cx="100" cy="52" r="31" fill="#2F4F3E"/>
+  <circle cx="74" cy="46" r="22" fill="#2F4F3E"/>
+  <circle cx="126" cy="46" r="22" fill="#2F4F3E"/>
+  <circle cx="88" cy="30" r="18" fill="#2F4F3E"/>
+  <circle cx="112" cy="30" r="18" fill="#2F4F3E"/>
+  <circle cx="100" cy="20" r="17" fill="#2F4F3E"/>
+  <circle cx="60" cy="56" r="15" fill="#2F4F3E"/>
+  <circle cx="140" cy="56" r="15" fill="#2F4F3E"/>
+  <circle cx="100" cy="76" r="22" fill="#2F4F3E"/>
+  <circle cx="72" cy="52" r="12" fill="#6B8A6B"/>
+  <circle cx="128" cy="52" r="12" fill="#6B8A6B"/>
+  <circle cx="100" cy="34" r="12" fill="#6B8A6B"/>
+  <circle cx="84" cy="66" r="4.5" fill="#B8552E"/>
+  <circle cx="116" cy="66" r="4.5" fill="#B8552E"/>
+</svg>
