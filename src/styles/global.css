@@ -316,6 +316,9 @@ main { flex: 1; }
 }
 
 .site-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var( --space-3 );
   font-family: var( --font-body );
   font-size: var( --text-sm );
   font-weight: 600;
@@ -324,6 +327,8 @@ main { flex: 1; }
   color: var( --color-ink );
   text-decoration: none;
 }
+
+.site-nav__logo { width: 44px; height: 44px; display: block; flex: none; }
 
 .site-nav__brand:hover { color: var( --color-forest ); }
 
@@ -391,6 +396,8 @@ main { flex: 1; }
 @media (min-width: 720px) {
   .site-footer__inner { grid-template-columns: 1.4fr 1fr 1fr; }
 }
+
+.site-footer__logo { width: 60px; height: 60px; display: block; margin-bottom: var( --space-4 ); }
 
 .site-footer__col h3 {
   font-family: var( --font-body );
