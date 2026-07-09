@@ -36,8 +36,7 @@ studio/          # Sanity Studio (separate workspace)
 public/          # static assets, fonts, robots, CNAME
 brand/           # logo & brand asset kit (transparent SVG + PNG) — see brand/README.md
 .github/workflows/
-  deploy.yml     # build + deploy to Pages on main push
-  ci.yml         # type-check + audit on PR
+  pipeline.yml   # type-check + audit on PR; + deploy to Pages on main push
   audit.yml      # reusable: build, sitemap, lychee, lighthouse
   nightly.yml    # daily audit run against main
 ```
