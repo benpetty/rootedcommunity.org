@@ -34,6 +34,7 @@ src/
   styles/        # global CSS + design tokens
 studio/          # Sanity Studio (separate workspace)
 public/          # static assets, fonts, robots, CNAME
+brand/           # logo & brand asset kit (transparent SVG + PNG) — see brand/README.md
 .github/workflows/
   deploy.yml     # build + deploy to Pages on main push
   ci.yml         # type-check + audit on PR
