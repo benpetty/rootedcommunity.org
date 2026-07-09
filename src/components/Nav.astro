@@ -27,7 +27,10 @@ const brandName = settings?.siteTitle ?? "Rooted Community";
 
 <header class="site-header">
   <nav class="site-nav" aria-label="Primary">
-    <a href="/" class="site-nav__brand">{brandName}</a>
+    <a href="/" class="site-nav__brand">
+      <img class="site-nav__logo" src="/brand/emblem-light.png" alt="" width="44" height="44" loading="eager" decoding="async" />
+      <span class="site-nav__brand-text">{brandName}</span>
+    </a>
 
     <ul class="site-nav__links">
       {NAV_LINKS.map( link => (

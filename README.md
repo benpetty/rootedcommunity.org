@@ -33,7 +33,7 @@ src/
   lib/           # Sanity client, image URL builder, structured data
   styles/        # global CSS + design tokens
 studio/          # Sanity Studio (separate workspace)
-public/          # static assets, fonts, robots, CNAME
+public/          # static assets, fonts, brand/ logo kit, favicons, robots, CNAME
 .github/workflows/
   deploy.yml     # build + deploy to Pages on main push
   ci.yml         # type-check + audit on PR
