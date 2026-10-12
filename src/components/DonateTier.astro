@@ -8,7 +8,7 @@ interface Props {
 
 const { tier, donateUrl } = Astro.props;
 
-if( !tier.amount ) return new Response( null, { status: 204 } );
+if( !tier.amount ) return new Response( null, { status: 204 });
 
 const Tag = donateUrl ? "a" : "div";
 ---

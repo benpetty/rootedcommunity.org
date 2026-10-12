@@ -9,12 +9,12 @@ const { settings } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 const NAV_LINKS = [
-  { href: "/mission/",  label: "Mission" },
+  { href: "/mission/", label: "Mission" },
   { href: "/programs/", label: "Programs" },
-  { href: "/impact/",   label: "Impact" },
-  { href: "/team/",     label: "Team" },
+  { href: "/impact/", label: "Impact" },
+  { href: "/team/", label: "Team" },
   { href: "/partners/", label: "Partners" },
-  { href: "/contact/",  label: "Contact" },
+  { href: "/contact/", label: "Contact" },
 ];
 
 const isActive = ( href: string ) => {

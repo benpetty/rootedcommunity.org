@@ -19,8 +19,8 @@ const imageSrc = person.photo?.asset
     {imageSrc
       ? <img src={imageSrc} alt={person.photo?.alt ?? person.name} width="480" height="480" loading="lazy" decoding="async" />
       : <div class="person-card__photo-placeholder" aria-hidden="true">
-          <span>{person.name.split( " " ).map( word => word[ 0 ] ).join( "" ).slice( 0, 2 )}</span>
-        </div>
+        <span>{person.name.split( " " ).map( word => word[ 0 ] ).join( "" ).slice( 0, 2 )}</span>
+      </div>
     }
   </div>
   <div class="person-card__body">

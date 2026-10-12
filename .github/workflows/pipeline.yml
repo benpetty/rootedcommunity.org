@@ -33,6 +33,7 @@ jobs:
         with:
           node-version: "22.13"
       - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
       - run: pnpm astro check
         env:
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}

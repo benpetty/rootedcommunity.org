@@ -121,7 +121,7 @@ export function buildNonprofitOrganization(
     ngo.parentOrganization = {
       "@type": "Organization",
       name: settings.fiscalSponsor.name,
-      ...( settings.fiscalSponsor.url ? { url: settings.fiscalSponsor.url } : {} ),
+      ...( settings.fiscalSponsor.url ? { url: settings.fiscalSponsor.url } : {}),
     };
   }
 
