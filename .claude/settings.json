@@ -7,8 +7,8 @@
             "Edit(studio/node_modules/**)",
             "Edit(dist/**)",
             "Edit(studio/dist/**)",
-            "Edit(yarn.lock)",
-            "Edit(studio/yarn.lock)"
+            "Edit(pnpm-lock.yaml)",
+            "Edit(studio/pnpm-lock.yaml)"
         ]
     }
 }

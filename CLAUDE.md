@@ -10,7 +10,7 @@ Marketing site for **Rooted Community**, a small WA-based nonprofit serving syst
 
 - **Astro 6** (static / SSG, no SSR adapter) → `dist/` deploys to GitHub Pages
 - **Sanity v6 CMS**, project ID `wnfi1j4a`, dataset `production`, hosted Studio at https://rooted-community.sanity.studio/
-- **TypeScript strict**, **Yarn**, Node ≥ 22.13
+- **TypeScript strict**, **pnpm** (pinned by `packageManager`; the site and `studio/` are separate pnpm projects, each with its own lockfile and `pnpm-workspace.yaml` install-script allowlist), Node ≥ 22.13
 - Self-hosted variable fonts via `@fontsource-variable/{newsreader,inter}` (latin-only ~180 KB on first visit; other unicode subsets are unicode-range-gated)
 
 ## Invariants
@@ -74,7 +74,7 @@ make studio         # local Sanity Studio at :3333
 make deploy-studio  # publish Studio to rooted-community.sanity.studio
 make seed           # additive content seed (no overwrites)
 make seed-replace   # destructive content reset
-yarn astro check    # type check
+pnpm astro check    # type check
 ```
 
 When adding a new content type: schema in `studio/schemaTypes/`, register in `studio/schemaTypes/index.ts`, add to `studio/sanity.config.ts` structure, add typed GROQ helper in `src/lib/sanity.ts`, then a page or component that consumes it.

@@ -1,0 +1,6 @@
+# pnpm settings for the Sanity Studio (a separate project from the site).
+
+# Dependency install scripts are off unless listed as true. esbuild's only
+# verifies the native binary that pnpm already installs prebuilt.
+allowBuilds:
+  esbuild: false
