@@ -4,3 +4,10 @@
 # verifies the native binary that pnpm already installs prebuilt.
 allowBuilds:
   esbuild: false
+
+# Security floors for packages the Sanity CLI pins (via @vercel/frameworks),
+# bounded to their current major. uuid (fix only in 11.x), braces and
+# sprintf-js (no fix released) are left until upstream moves.
+overrides:
+  js-yaml: ^3.15.2
+  smol-toml: ^1.9.1
