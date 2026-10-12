@@ -2,12 +2,18 @@ import { globalIgnores } from "eslint/config";
 import jseslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import astroPlugin from "eslint-plugin-astro";
+import globals from "globals";
 
 export default tseslint.config(
   globalIgnores( [ "dist/**", "node_modules/**", "studio/**", ".astro/**" ] ),
   jseslint.configs.recommended,
   tseslint.configs.recommended,
   ...astroPlugin.configs.recommended,
+  {
+    // Maintenance scripts run on Node, not in the browser.
+    files: [ "scripts/**/*.mjs" ],
+    languageOptions: { globals: globals.node },
+  },
   {
     rules: {
       "@typescript-eslint/no-unused-vars": [ "error", {

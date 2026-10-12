@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PersonCard from "../components/PersonCard.astro";
-import { getPeople, type Person, type PersonType } from "../lib/sanity";
+import { getPeople, type PersonType } from "../lib/sanity";
 
 const people = await getPeople();
 
