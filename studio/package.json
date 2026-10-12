@@ -33,5 +33,6 @@
     "printWidth": 100,
     "semi": false,
     "singleQuote": true
-  }
+  },
+  "packageManager": "pnpm@12.11.2"
 }

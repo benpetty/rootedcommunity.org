@@ -20,7 +20,7 @@ Run `make` (no args) for the full target list.
 - [Astro 6](https://astro.build) — static site generator (SSG, no SSR adapter)
 - [Sanity v5](https://www.sanity.io) — headless CMS, hosted Studio, build-time GROQ queries only
 - TypeScript (strict)
-- Yarn package manager (Node ≥ 22.13)
+- pnpm package manager (pinned by `packageManager`; Node ≥ 22.13)
 - GitHub Pages hosting + GitHub Actions CI/CD
 
 ## Repository layout
